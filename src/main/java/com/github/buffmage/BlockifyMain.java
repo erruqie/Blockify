@@ -1,14 +1,15 @@
 package com.github.buffmage;
 
-import net.fabricmc.api.ModInitializer;
 
-public class BlockifyMain implements ModInitializer {
-	@Override
-	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+import net.fabricmc.api.ClientModInitializer;
 
-		System.out.println("Hello Fabric world!");
-	}
+public class BlockifyMain implements ClientModInitializer
+{
+    public static final String MOD_ID = "blockifybuffmage";
+
+    @Override
+    public void onInitializeClient()
+    {
+
+    }
 }
