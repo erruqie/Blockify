@@ -19,6 +19,7 @@ public class RenderUtil
         Identifier texture = image.getIdentifier();
         int width = image.getWidth();
         int height = image.getHeight();
+
         TextureManager tex = MinecraftClient.getInstance().getTextureManager();
         tex.bindTexture(texture);
         RenderSystem.enableTexture();
@@ -35,10 +36,11 @@ public class RenderUtil
 
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         Matrix4f matrices = matrixStack.peek().getModel();
-        bufferBuilder.vertex(matrices, x * scale, (y + height) * scale, 0).texture(0, 1).next();
-        bufferBuilder.vertex(matrices, (x + width) * scale, (y + height) * scale, 0).texture(1, 1).next();
-        bufferBuilder.vertex(matrices, (x + width) * scale, y * scale, 0).texture(1, 0).next();
-        bufferBuilder.vertex(matrices, x * scale, y * scale, 0).texture(0, 0).next();
+
+        bufferBuilder.vertex(matrices, x, y + (height * scale), 0).texture(0, 1).next();
+        bufferBuilder.vertex(matrices, x + (width * scale), y + (height * scale), 0).texture(1, 1).next();
+        bufferBuilder.vertex(matrices, x + (width * scale), y, 0).texture(1, 0).next();
+        bufferBuilder.vertex(matrices, x, y, 0).texture(0, 0).next();
 
         tessellator.draw();
 

@@ -33,7 +33,7 @@ public class URLImage
         client = MinecraftClient.getInstance();
         urlImage = new NativeImage(NativeImage.Format.ABGR, width, height, false);
         urlTexture = new NativeImageBackedTexture(urlImage);
-        urlID = client.getTextureManager().registerDynamicTexture("urlImage", urlTexture);
+        urlID = client.getTextureManager().registerDynamicTexture("urlimage", urlTexture);
     }
 
     public void setImage(String url)
