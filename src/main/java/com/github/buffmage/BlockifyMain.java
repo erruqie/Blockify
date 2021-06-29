@@ -1,16 +1,120 @@
 package com.github.buffmage;
 
 
-import net.fabricmc.api.ClientModInitializer;
+import com.github.buffmage.util.SpotifyUtil;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Util;
+import org.lwjgl.glfw.GLFW;
 
 public class BlockifyMain implements ModInitializer
 {
     public static final String MOD_ID = "blockifybuffmage";
+    private static KeyBinding playKey;
+    private boolean playKeyPrevState = false;
+    private static int ticks;
+    private static Thread requestThread;
 
     @Override
     public void onInitialize()
     {
+        requestThread = new Thread()
+        {
+            public void run()
+            {
+                System.out.println("Hello again!");
+                while (true)
+                {
+                    try
+                    {
+                        Thread.sleep(1000);
+                        //System.out.println("Sleeping");
+                        if (MinecraftClient.getInstance().isInSingleplayer())
+                        {
+                            BlockifyHUD.updateData(SpotifyUtil.getPlaybackInfo());
+                            //System.out.println("Updating!");
+                        }
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
+        };
+
+        requestThread.start();
+        ticks = 0;
+        SpotifyUtil.initialize();
+        playKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "Play/Pause",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_KP_5,
+                        "Blockify"
+                )
+        );
+
+        ClientTickEvents.END_CLIENT_TICK.register(
+                client ->
+                {
+                    try
+                    {
+                        playKeyHandler(playKey.isPressed());
+
+                        BlockifyMain.onTick();
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+    public static void onTick()
+    {
+        ticks++;
+        if (ticks % 16 == 0 && MinecraftClient.getInstance().isInSingleplayer())
+        {
+            //String []  results = SpotifyUtil.getPlaybackInfo();
+            //System.out.println(results[0]);
+            //System.out.println(Thread.currentThread());
+            //requestThread.notify();
+            ticks = 0;
+        }
+    }
+
+
+    public void playKeyHandler(boolean currPressState)
+    {
+        try
+        {
+            if (currPressState && !playKeyPrevState)
+            {
+
+                //MinecraftClient.getInstance().player.sendMessage(new LiteralText("Key Pad 5 was pressed!"), false);
+                if (SpotifyUtil.isAuthorized())
+                {
+                    System.out.println("Authorized!");
+                    /*for (String s : SpotifyUtil.getPlaybackInfo())
+                    {
+                        System.out.println(s);
+                    }*/
+                }
+                else
+                {
+                    Util.getOperatingSystem().open(SpotifyUtil.authorize());
+                }
+            }
+            playKeyPrevState = currPressState;
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
