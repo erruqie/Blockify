@@ -6,6 +6,7 @@ import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,9 +48,19 @@ public class URLImage
             BufferedImage img = ImageIO.read(in);
             for (int x = 0; x < this.width; x++)
             {
-                for (int y = 0; y < this.height; y++)
+                if (x < img.getWidth())
                 {
-                    urlImage.setPixelColor(x, y, getABRGfromARGB(img.getRGB(x, y)));
+                    for (int y = 0; y < this.height; y++)
+                    {
+                        if (y < img.getHeight())
+                        {
+                            urlImage.setPixelColor(x, y, getABRGfromARGB(img.getRGB(x, y)));
+                        }
+                        else
+                        {
+                            urlImage.setPixelColor(x, y, new Color(0, 0, 0, 0).getRGB());
+                        }
+                    }
                 }
             }
             urlTexture.upload();

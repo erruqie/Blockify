@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 
@@ -17,7 +16,6 @@ public class BlockifyMain implements ModInitializer
     public static final String MOD_ID = "blockifybuffmage";
     private static KeyBinding playKey;
     private boolean playKeyPrevState = false;
-    private static int ticks;
     private static Thread requestThread;
 
     @Override
@@ -33,11 +31,17 @@ public class BlockifyMain implements ModInitializer
                     try
                     {
                         Thread.sleep(1000);
-                        //System.out.println("Sleeping");
-                        if (MinecraftClient.getInstance().isInSingleplayer())
+                        if (MinecraftClient.getInstance().world != null)
                         {
-                            BlockifyHUD.updateData(SpotifyUtil.getPlaybackInfo());
-                            //System.out.println("Updating!");
+                            String [] data = SpotifyUtil.getPlaybackInfo();
+                            if (data[0] != null && data[0].equals("Status Code: 204"))
+                            {
+                                SpotifyUtil.refreshActiveSession();
+                            }
+                            else
+                            {
+                                BlockifyHUD.updateData(data);
+                            }
                         }
                     } catch (InterruptedException e)
                     {
@@ -47,9 +51,8 @@ public class BlockifyMain implements ModInitializer
             }
 
         };
-
+        requestThread.setName("Spotify Thread");
         requestThread.start();
-        ticks = 0;
         SpotifyUtil.initialize();
         playKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
@@ -66,8 +69,6 @@ public class BlockifyMain implements ModInitializer
                     try
                     {
                         playKeyHandler(playKey.isPressed());
-
-                        BlockifyMain.onTick();
                     } catch (Exception e)
                     {
                         e.printStackTrace();
@@ -76,18 +77,6 @@ public class BlockifyMain implements ModInitializer
         );
     }
 
-    public static void onTick()
-    {
-        ticks++;
-        if (ticks % 16 == 0 && MinecraftClient.getInstance().isInSingleplayer())
-        {
-            //String []  results = SpotifyUtil.getPlaybackInfo();
-            //System.out.println(results[0]);
-            //System.out.println(Thread.currentThread());
-            //requestThread.notify();
-            ticks = 0;
-        }
-    }
 
 
     public void playKeyHandler(boolean currPressState)
@@ -101,10 +90,7 @@ public class BlockifyMain implements ModInitializer
                 if (SpotifyUtil.isAuthorized())
                 {
                     System.out.println("Authorized!");
-                    /*for (String s : SpotifyUtil.getPlaybackInfo())
-                    {
-                        System.out.println(s);
-                    }*/
+                    SpotifyUtil.playPause();
                 }
                 else
                 {

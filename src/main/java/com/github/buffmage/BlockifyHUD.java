@@ -28,7 +28,6 @@ public class BlockifyHUD
         scaledWidth = client.getWindow().getScaledWidth();
         scaledHeight = client.getWindow().getScaledHeight();
         albumImage = new URLImage(300, 300);
-        //albumImage.setImage("https://i.scdn.co/image/ab67616d00001e0233ea9fb3fd69bca55a015229");
         fontRenderer = client.textRenderer;
         ticks = 0;
         hudInfo = new String[5];
@@ -53,7 +52,7 @@ public class BlockifyHUD
         drawRectangle(60, 30, 180, 32, new Color(100, 100, 100, 255));
         drawRectangle(60, 30, (float)(60 + (120 * percentProgress)), 32, new Color(230, 230, 230, 255));
 
-        if (!prevImage.equals(hudInfo[4]))
+        if (!prevImage.equals(hudInfo[4]) && !hudInfo[4].equals(""))
         {
             System.out.println("Drawing!");
             albumImage.setImage(hudInfo[4]);
@@ -62,16 +61,16 @@ public class BlockifyHUD
 
         RenderUtil.drawTexture(matrixStack, albumImage, 5, 5, .15F);
 
-        fontRenderer.drawWithShadow(matrixStack, hudInfo[0], 60, 10, new Color(255, 255, 255, 255).getRGB());
+        String nameText = fontRenderer.trimToWidth(hudInfo[0], 125);
+        fontRenderer.drawWithShadow(matrixStack, nameText, 60, 10, new Color(255, 255, 255, 255).getRGB());
         matrixStack.scale(.5F, .5F, .5F);
         fontRenderer.drawWithShadow(matrixStack, hudInfo[1], 120, 45, new Color(255, 255, 255, 255).getRGB());
 
         String progressText = (progressMS / (1000 * 60)) + ":" + String.format("%02d", (progressMS / 1000 % 60));
         String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d", (durationMS / 1000 % 60));
-        fontRenderer.drawWithShadow(matrixStack, progressText, 120, 65, new Color(255, 255, 255, 255).getRGB());
-        fontRenderer.drawWithShadow(matrixStack, durationText, 360 - (fontRenderer.getWidth(durationText)), 65, new Color(255, 255, 255, 255).getRGB());
+        fontRenderer.drawWithShadow(matrixStack, progressText, 120, 67, new Color(255, 255, 255, 255).getRGB());
+        fontRenderer.drawWithShadow(matrixStack, durationText, 360 - (fontRenderer.getWidth(durationText)), 67, new Color(255, 255, 255, 255).getRGB());
         matrixStack.scale(2F, 2F, 2F);
-        //System.out.println(Thread.currentThread());
     }
 
     public static void drawRectangle(float x1, float y1, float x2, float y2, Color color)

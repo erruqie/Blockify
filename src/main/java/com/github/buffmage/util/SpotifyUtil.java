@@ -5,13 +5,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpServer;
+import org.lwjgl.system.CallbackI;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -28,7 +31,8 @@ public class SpotifyUtil
     private static String authCode;
     private static String accessToken;
     private static String refreshToken;
-    private static String apiAddress = "https://accounts.spotify.com/api/";
+    private static String tokenAddress = "https://accounts.spotify.com/api/token";
+    private static String playerAddress = "https://api.spotify.com/v1/me/player/";
     private static HttpClient client;
     private static HttpServer authServer;
     private static ThreadPoolExecutor threadPoolExecutor;
@@ -36,6 +40,7 @@ public class SpotifyUtil
     private static HttpResponse<String> playbackResponse;
     private static File authFile;
     private static boolean isAuthorized = false;
+    private static boolean isPlaying = false;
 
 
     public static void initialize()
@@ -134,7 +139,7 @@ public class SpotifyUtil
             accessBody.append("&client_id=" + client_id);
             accessBody.append("&code_verifier=" + verifier);
             HttpRequest accessRequest = HttpRequest.newBuilder(
-                    new URI(apiAddress + "token"))
+                    new URI(tokenAddress))
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .header("Accept", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(accessBody.toString()))
@@ -152,19 +157,93 @@ public class SpotifyUtil
         }
     }
 
-    public static void refreshAuthToken()
+    public static boolean refreshAccessToken()
     {
+        try
+        {
+            StringBuilder refreshRequestBody = new StringBuilder();
+            refreshRequestBody.append("grant_type=refresh_token");
+            refreshRequestBody.append("&refresh_token=" + refreshToken);
+            refreshRequestBody.append("&client_id=" + client_id);
 
+            HttpRequest refreshRequest = HttpRequest.newBuilder(
+                    new URI(tokenAddress))
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .header("Accept", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(refreshRequestBody.toString()))
+                    .build();
+
+            HttpResponse<String> refreshResponse = client.send(refreshRequest, HttpResponse.BodyHandlers.ofString());
+            if (refreshResponse.statusCode() == 200)
+            {
+                JsonObject refreshJson = new JsonParser().parse(refreshResponse.body()).getAsJsonObject();
+                accessToken = refreshJson.get("access_token").getAsString();
+                refreshToken = refreshJson.get("refresh_token").getAsString();
+                updateJson();
+                updatePlaybackRequest();
+                return true;
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static void refreshActiveSession()
     {
+        System.out.println("Attempting to refresh active session...");
+        try
+        {
+            HttpRequest getDevices = HttpRequest.newBuilder(
+                    new URI(playerAddress + "devices"))
+                    .header("Authorization", "Bearer " + accessToken)
+                    .header("Accept", "application/json")
+                    .build();
+            HttpResponse<String> devices = client.send(getDevices, HttpResponse.BodyHandlers.ofString());
+            JsonArray devicesJson = new JsonParser().parse(devices.body()).getAsJsonObject().get("devices").getAsJsonArray();
+            JsonObject currDevice;
+            String computerName = InetAddress.getLocalHost().getHostName();
+            String thisDeviceID = "";
+            for (int i = 0; i < devicesJson.size(); i++)
+            {
+                currDevice = devicesJson.get(i).getAsJsonObject();
+                if (currDevice.get("name").getAsString().equals(computerName))
+                {
+                    thisDeviceID = currDevice.get("id").getAsString();
+                    break;
+                }
+            }
+            String deviceIDBody = "{\"device_ids\" : [\"" + thisDeviceID +"\"]}";
+            HttpRequest setActive = HttpRequest.newBuilder(
+                    new URI(playerAddress))
+                    .header("Authorization", "Bearer " + accessToken)
+                    .PUT(HttpRequest.BodyPublishers.ofString(deviceIDBody))
+                    .build();
+            System.out.println("Responded with :" + client.send(setActive, HttpResponse.BodyHandlers.ofString()).statusCode());
 
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("Successfully refreshed active session");
     }
 
     public static void putRequest(String type)
     {
-
+        try
+        {
+            HttpRequest putReq = HttpRequest.newBuilder(new URI("https://api.spotify.com/v1/me/player/" + type))
+                    .PUT(HttpRequest.BodyPublishers.ofString(""))
+                    .header("Authorization", "Bearer " + accessToken).build();
+            HttpResponse<String> putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Put Request (" + type + "): " + putRes.statusCode());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public static void postRequest(String type)
@@ -184,12 +263,24 @@ public class SpotifyUtil
 
     public static void playSong()
     {
-
+        putRequest("play");
     }
 
     public static void pauseSong()
     {
+        putRequest("pause");
+    }
 
+    public static void playPause()
+    {
+        if (isPlaying)
+        {
+            pauseSong();
+        }
+        else
+        {
+            playSong();
+        }
     }
 
     public static String [] getPlaybackInfo()
@@ -198,19 +289,30 @@ public class SpotifyUtil
         try
         {
             playbackResponse = client.send(playbackRequest, HttpResponse.BodyHandlers.ofString());
-            if (playbackResponse.statusCode() != 200)
+            if (playbackResponse.statusCode() == 200)
+            {
+                JsonObject json = (JsonObject) new JsonParser().parse(playbackResponse.body());
+
+                results[0] = json.get("item").getAsJsonObject().get("name").getAsString();
+                results[1] = json.get("item").getAsJsonObject().get("artists").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
+                results[2] = json.get("progress_ms").getAsString();
+                results[3] = json.get("item").getAsJsonObject().get("duration_ms").getAsString();
+                results[4] = json.get("item").getAsJsonObject().get("album").getAsJsonObject().get("images")
+                        .getAsJsonArray().get(1).getAsJsonObject().get("url").getAsString();
+                isPlaying = json.get("is_playing").getAsBoolean();
+            }
+            else if (playbackResponse.statusCode() == 401)
+            {
+                if(!refreshAccessToken())
+                {
+                    isAuthorized = false;
+                }
+            }
+            else
             {
                 results[0] = "Status Code: " + playbackResponse.statusCode();
                 return results;
             }
-            JsonObject json = (JsonObject) new JsonParser().parse(playbackResponse.body());
-
-            results[0] = json.get("item").getAsJsonObject().get("name").getAsString();
-            results[1] = json.get("item").getAsJsonObject().get("artists").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
-            results[2] = json.get("progress_ms").getAsString();
-            results[3] = json.get("item").getAsJsonObject().get("duration_ms").getAsString();
-            results[4] = json.get("item").getAsJsonObject().get("album").getAsJsonObject().get("images")
-                    .getAsJsonArray().get(1).getAsJsonObject().get("url").getAsString();
         }
         catch (Exception e)
         {
