@@ -31,3 +31,6 @@ bin/
 # fabric
 
 run/
+/src/main/java/com/github/buffmage/registry/
+/src/main/java/com/github/buffmage/BlockifyHUDTemp.java
+/src/main/java/com/github/buffmage/BlockifyMainTemp.java

@@ -33,14 +33,21 @@ public class BlockifyMain implements ModInitializer
                         Thread.sleep(1000);
                         if (MinecraftClient.getInstance().world != null)
                         {
-                            String [] data = SpotifyUtil.getPlaybackInfo();
-                            if (data[0] != null && data[0].equals("Status Code: 204"))
+                            if (/*do we have current data?*/(BlockifyHUD.getDuration() < BlockifyHUD.getProgress()))
                             {
-                                SpotifyUtil.refreshActiveSession();
+                                String [] data = SpotifyUtil.getPlaybackInfo();
+                                if (data[0] != null && data[0].equals("Status Code: 204"))
+                                {
+                                    SpotifyUtil.refreshActiveSession();
+                                }
+                                else
+                                {
+                                    BlockifyHUD.updateData(data);
+                                }
                             }
-                            else
+                            else if (SpotifyUtil.isPlaying())
                             {
-                                BlockifyHUD.updateData(data);
+                                BlockifyHUD.setProgress(BlockifyHUD.getProgress() + 1000);
                             }
                         }
                     } catch (InterruptedException e)

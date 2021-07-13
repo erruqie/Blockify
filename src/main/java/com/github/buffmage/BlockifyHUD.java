@@ -21,6 +21,8 @@ public class BlockifyHUD
     private static String [] hudInfo;
     private static int ticks;
     private static String prevImage;
+    private static int progressMS;
+    private static int durationMS;
 
     public BlockifyHUD(MinecraftClient client)
     {
@@ -32,6 +34,8 @@ public class BlockifyHUD
         ticks = 0;
         hudInfo = new String[5];
         prevImage = "";
+        progressMS = 0;
+        durationMS = -1;
     }
 
     public static void draw(MatrixStack matrixStack)
@@ -41,8 +45,6 @@ public class BlockifyHUD
             return;
         }
 
-        int progressMS = Integer.parseInt(hudInfo[2]);
-        int durationMS = Integer.parseInt(hudInfo[3]);
         double percentProgress = (double) progressMS / (double) durationMS;
 
         BlockifyHUD.matrixStack = matrixStack;
@@ -81,6 +83,23 @@ public class BlockifyHUD
     public static void updateData(String [] data)
     {
         hudInfo = data;
+        progressMS = Integer.parseInt(hudInfo[2]);
+        durationMS = Integer.parseInt(hudInfo[3]);
+    }
+
+    public static int getProgress()
+    {
+        return progressMS;
+    }
+
+    public static int getDuration()
+    {
+        return durationMS;
+    }
+
+    public static void setProgress(int progress)
+    {
+        progressMS = progress;
     }
 
 }

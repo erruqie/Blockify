@@ -76,8 +76,7 @@ public class SpotifyUtil
                 }
                 scan.close();
             }
-        }
-        catch(IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -106,8 +105,7 @@ public class SpotifyUtil
             authServer.setExecutor(threadPoolExecutor);
             authServer.createContext("/callback", new AuthServerHandler());
             authServer.start();
-        }
-        catch(Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -150,8 +148,7 @@ public class SpotifyUtil
             refreshToken = accessJson.get("refresh_token").getAsString();
             updatePlaybackRequest();
             updateJson();
-        }
-        catch(Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -183,8 +180,7 @@ public class SpotifyUtil
                 updatePlaybackRequest();
                 return true;
             }
-        }
-        catch(Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -215,7 +211,7 @@ public class SpotifyUtil
                     break;
                 }
             }
-            String deviceIDBody = "{\"device_ids\" : [\"" + thisDeviceID +"\"]}";
+            String deviceIDBody = "{\"device_ids\" : [\"" + thisDeviceID + "\"]}";
             HttpRequest setActive = HttpRequest.newBuilder(
                     new URI(playerAddress))
                     .header("Authorization", "Bearer " + accessToken)
@@ -239,8 +235,7 @@ public class SpotifyUtil
                     .header("Authorization", "Bearer " + accessToken).build();
             HttpResponse<String> putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
             System.out.println("Put Request (" + type + "): " + putRes.statusCode());
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -263,12 +258,20 @@ public class SpotifyUtil
 
     public static void playSong()
     {
-        putRequest("play");
+        Thread thread = new Thread(() ->
+        {
+            putRequest("play");
+        });
+        thread.start();
     }
 
     public static void pauseSong()
     {
-        putRequest("pause");
+        Thread thread = new Thread(() ->
+        {
+            putRequest("pause");
+        });
+        thread.start();
     }
 
     public static void playPause()
@@ -276,16 +279,18 @@ public class SpotifyUtil
         if (isPlaying)
         {
             pauseSong();
+            isPlaying = false;
         }
         else
         {
             playSong();
+            isPlaying = true;
         }
     }
 
-    public static String [] getPlaybackInfo()
+    public static String[] getPlaybackInfo()
     {
-        String [] results = new String[5];
+        String[] results = new String[5];
         try
         {
             playbackResponse = client.send(playbackRequest, HttpResponse.BodyHandlers.ofString());
@@ -303,7 +308,7 @@ public class SpotifyUtil
             }
             else if (playbackResponse.statusCode() == 401)
             {
-                if(!refreshAccessToken())
+                if (!refreshAccessToken())
                 {
                     isAuthorized = false;
                 }
@@ -313,8 +318,7 @@ public class SpotifyUtil
                 results[0] = "Status Code: " + playbackResponse.statusCode();
                 return results;
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -347,6 +351,11 @@ public class SpotifyUtil
     public static boolean isAuthorized()
     {
         return isAuthorized;
+    }
+
+    public static boolean isPlaying()
+    {
+        return isPlaying;
     }
 
 }
