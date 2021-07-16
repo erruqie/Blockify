@@ -1,10 +1,15 @@
 package com.github.buffmage.util;
 
 
+import com.github.buffmage.BlockifyHUD;
+import com.github.buffmage.BlockifyMain;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpServer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.MessageType;
+import net.minecraft.text.Text;
 import org.lwjgl.system.CallbackI;
 
 import java.io.BufferedWriter;
@@ -20,6 +25,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -148,6 +154,7 @@ public class SpotifyUtil
             refreshToken = accessJson.get("refresh_token").getAsString();
             updatePlaybackRequest();
             updateJson();
+            isAuthorized = true;
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -202,6 +209,14 @@ public class SpotifyUtil
             JsonObject currDevice;
             String computerName = InetAddress.getLocalHost().getHostName();
             String thisDeviceID = "";
+            if (devicesJson.size() == 0)
+            {
+                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Please open Spotify and then click the force update button."), UUID.randomUUID());
+                BlockifyHUD.setDuration(1);
+                BlockifyHUD.setProgress(0);
+                isPlaying = false;
+                return;
+            }
             for (int i = 0; i < devicesJson.size(); i++)
             {
                 currDevice = devicesJson.get(i).getAsJsonObject();
@@ -235,25 +250,100 @@ public class SpotifyUtil
                     .header("Authorization", "Bearer " + accessToken).build();
             HttpResponse<String> putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
             System.out.println("Put Request (" + type + "): " + putRes.statusCode());
-        } catch (Exception e)
+            if (putRes.statusCode() == 404)
+            {
+                refreshActiveSession();
+                System.out.println("Retrying put request...");
+                putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
+                System.out.println("Put Request (" + type + "): " + putRes.statusCode());
+            }
+            else if (putRes.statusCode() == 401)
+            {
+                if (refreshAccessToken())
+                {
+                    putRequest(type);
+                }
+                else
+                {
+                    isAuthorized = false;
+                }
+            }
+        } catch (IOException | InterruptedException | URISyntaxException e)
         {
-            e.printStackTrace();
+            if (e instanceof IOException && e.getMessage().equals("Connection reset"))
+            {
+                System.out.println("Attempting to retry put request...");
+                putRequest(type);
+                System.out.println("Successfully sent put request");
+            }
+            else
+            {
+                e.printStackTrace();
+            }
         }
+
     }
 
     public static void postRequest(String type)
     {
-
+        try
+        {
+            HttpRequest postReq = HttpRequest.newBuilder(new URI("https://api.spotify.com/v1/me/player/" + type))
+                    .POST(HttpRequest.BodyPublishers.ofString(""))
+                    .header("Authorization", "Bearer " + accessToken).build();
+            HttpResponse<String> postRes = client.send(postReq, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Post Request (" + type + "): " + postRes.statusCode());
+            if (postRes.statusCode() == 404)
+            {
+                refreshActiveSession();
+                System.out.println("Retrying post request...");
+                postRes = client.send(postReq, HttpResponse.BodyHandlers.ofString());
+                System.out.println("Put Request (" + type + "): " + postRes.statusCode());
+            }
+            else if (postRes.statusCode() == 401)
+            {
+                if (refreshAccessToken())
+                {
+                    postRequest(type);
+                }
+                else
+                {
+                    isAuthorized = false;
+                }
+            }
+        } catch (IOException | InterruptedException | URISyntaxException e)
+        {
+            if (e instanceof IOException && e.getMessage().equals("Connection reset"))
+            {
+                System.out.println("Attempting to retry post request...");
+                postRequest(type);
+                System.out.println("Successfully sent post request");
+            }
+            else
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void nextSong()
     {
-
+        Thread thread = new Thread(() ->
+        {
+            postRequest("next");
+            BlockifyHUD.setDuration(-2000);
+        });
+        thread.start();
     }
 
     public static void prevSong()
     {
-
+        Thread thread = new Thread(() ->
+        {
+            postRequest("previous");
+            BlockifyHUD.setDuration(-2000);
+        });
+        thread.start();
     }
 
     public static void playSong()
@@ -290,20 +380,57 @@ public class SpotifyUtil
 
     public static String[] getPlaybackInfo()
     {
+        System.out.println("Attempting to retrieve data from Spotify...");
         String[] results = new String[5];
         try
         {
             playbackResponse = client.send(playbackRequest, HttpResponse.BodyHandlers.ofString());
+            if (playbackResponse.statusCode() == 429)
+            {
+                results[0] = "Status Code: " + playbackResponse.statusCode();
+                return results;
+            }
             if (playbackResponse.statusCode() == 200)
             {
                 JsonObject json = (JsonObject) new JsonParser().parse(playbackResponse.body());
-
+                if (json.get("currently_playing_type").getAsString().equals("episode"))
+                {
+                    results[0] = json.get("item").getAsJsonObject().get("name").getAsString();
+                    results[1] = json.get("item").getAsJsonObject().get("show").getAsJsonObject().get("name").getAsString();
+                    results[2] = json.get("progress_ms").getAsString();
+                    results[3] = json.get("item").getAsJsonObject().get("duration_ms").getAsString();
+                    results[4] = json.get("item").getAsJsonObject().get("images").getAsJsonArray().get(1).getAsJsonObject().get("url").getAsString();
+                    return results;
+                }
                 results[0] = json.get("item").getAsJsonObject().get("name").getAsString();
-                results[1] = json.get("item").getAsJsonObject().get("artists").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
+                //results[1] = json.get("item").getAsJsonObject().get("artists").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
+                JsonArray artistArray = json.get("item").getAsJsonObject().get("artists").getAsJsonArray();
+                StringBuilder artistString = new StringBuilder();
+                for (int i = 0; i < artistArray.size(); i++)
+                {
+                    if (i == artistArray.size() - 1)
+                    {
+                        artistString.append(artistArray.get(i).getAsJsonObject().get("name").getAsString());
+                    }
+                    else
+                    {
+                        artistString.append(artistArray.get(i).getAsJsonObject().get("name").getAsString());
+                        artistString.append(", ");
+                    }
+                }
+                results[1] = artistString.toString();
                 results[2] = json.get("progress_ms").getAsString();
                 results[3] = json.get("item").getAsJsonObject().get("duration_ms").getAsString();
-                results[4] = json.get("item").getAsJsonObject().get("album").getAsJsonObject().get("images")
-                        .getAsJsonArray().get(1).getAsJsonObject().get("url").getAsString();
+                JsonArray imageArray = json.get("item").getAsJsonObject().get("album").getAsJsonObject().get("images")
+                        .getAsJsonArray();
+                if (imageArray.size() > 1)
+                {
+                    results[4] = imageArray.get(1).getAsJsonObject().get("url").getAsString();
+                }
+                else
+                {
+                    results[4] = null;
+                }
                 isPlaying = json.get("is_playing").getAsBoolean();
             }
             else if (playbackResponse.statusCode() == 401)
@@ -320,7 +447,15 @@ public class SpotifyUtil
             }
         } catch (Exception e)
         {
-            e.printStackTrace();
+            if (e instanceof IOException && e.getMessage().equals("Connection reset"))
+            {
+                System.out.println("Resetting connection and retrying info get...");
+                results[0] = "Reset";
+            }
+            else
+            {
+                e.printStackTrace();
+            }
         }
         return results;
     }
@@ -342,7 +477,7 @@ public class SpotifyUtil
     public static void updatePlaybackRequest()
     {
         playbackRequest = HttpRequest.newBuilder(
-                URI.create("https://api.spotify.com/v1/me/player"))
+                URI.create("https://api.spotify.com/v1/me/player?additional_types=episode"))
                 .header("Accept", "application/json")
                 .header("Authorization", "Bearer " + accessToken)
                 .header("Content-Type", "application/json").build();
