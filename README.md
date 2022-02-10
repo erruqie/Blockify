@@ -7,6 +7,7 @@ Allows users to passthrough their Spotify information into Minecraft
 ![License](https://img.shields.io/github/license/clownless/blockify?style=flat-square)
 ![Environment](https://img.shields.io/badge/environment-client-1976d2?style=flat-square)
 ![ModLoader](https://img.shields.io/badge/modloader-Fabric-1976d2?style=flat-square)
+![Java Version](https://img.shields.io/badge/java-17+-1976d2?style=flat-square)
 
 ## How to use
 
