@@ -9,8 +9,9 @@
     "James DeLoach & clownless"
   ],
   "contact": {
-    "homepage": "https://github.com/clownless/Blockify",
-    "sources": "https://github.com/clownless/Blockify"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/blockify",
+    "sources": "https://github.com/clownless/Blockify",
+    "issues": "https://github.com/clownless/Blockify/issues"
   },
 
   "license": "CC0-1.0",
