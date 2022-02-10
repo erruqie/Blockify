@@ -1,15 +1,13 @@
-package com.github.buffmage;
+package com.clownless.blockify;
 
-import com.github.buffmage.util.RenderUtil;
-import com.github.buffmage.util.SpotifyUtil;
-import com.github.buffmage.util.URLImage;
+import com.clownless.blockify.util.RenderUtil;
+import com.clownless.blockify.util.URLImage;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.StringVisitable;
-import net.minecraft.text.Text;
 
 import java.awt.Color;
 import java.util.List;

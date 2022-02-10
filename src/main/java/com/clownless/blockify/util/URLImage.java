@@ -1,4 +1,4 @@
-package com.github.buffmage.util;
+package com.clownless.blockify.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
@@ -32,7 +32,7 @@ public class URLImage
         this.width = width;
         this.height = height;
         client = MinecraftClient.getInstance();
-        urlImage = new NativeImage(NativeImage.Format.ABGR, width, height, false);
+        urlImage = new NativeImage(NativeImage.Format.RGBA, width, height, false);
         urlTexture = new NativeImageBackedTexture(urlImage);
         urlID = client.getTextureManager().registerDynamicTexture("urlimage", urlTexture);
     }
@@ -54,11 +54,12 @@ public class URLImage
                     {
                         if (y < img.getHeight())
                         {
-                            urlImage.setPixelColor(x, y, getABRGfromARGB(img.getRGB(x, y)));
+                            //urlImage.setPixelColor(x, y, getABRGfromARGB(img.getRGB(x, y)));
+                            urlImage.setColor(x, y, getABRGfromARGB(img.getRGB(x, y)));
                         }
                         else
                         {
-                            urlImage.setPixelColor(x, y, new Color(0, 0, 0, 0).getRGB());
+                            urlImage.setColor(x, y, new Color(0, 0, 0, 0).getRGB());
                         }
                     }
                 }

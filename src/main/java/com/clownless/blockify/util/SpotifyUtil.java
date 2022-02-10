@@ -1,8 +1,7 @@
-package com.github.buffmage.util;
+package com.clownless.blockify.util;
 
 
-import com.github.buffmage.BlockifyHUD;
-import com.github.buffmage.BlockifyMain;
+import com.clownless.blockify.BlockifyHUD;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,9 +9,7 @@ import com.sun.net.httpserver.HttpServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;
-import org.lwjgl.system.CallbackI;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,7 +28,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class SpotifyUtil
 {
-    private static String client_id = "bd91ca99ddc2470aabf25c025107ceea";
+    private static String client_id = "d34978659f8940e9bfce52d124539feb";
     private static String challenge;
     private static String verifier;
     private static String authCode;

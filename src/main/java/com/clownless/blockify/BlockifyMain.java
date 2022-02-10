@@ -1,7 +1,7 @@
-package com.github.buffmage;
+package com.clownless.blockify;
 
 
-import com.github.buffmage.util.SpotifyUtil;
+import com.clownless.blockify.util.SpotifyUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -11,9 +11,10 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 
+
 public class BlockifyMain implements ModInitializer
 {
-    public static final String MOD_ID = "blockifybuffmage";
+    public static final String MOD_ID = "blockify";
     private static KeyBinding playKey;
     private static KeyBinding nextKey;
     private static KeyBinding prevKey;

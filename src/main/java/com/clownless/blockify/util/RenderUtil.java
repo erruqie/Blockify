@@ -1,4 +1,4 @@
-package com.github.buffmage.util;
+package com.clownless.blockify.util;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -35,7 +35,7 @@ public class RenderUtil
         RenderSystem.enableDepthTest();
 
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        Matrix4f matrices = matrixStack.peek().getModel();
+        Matrix4f matrices = matrixStack.peek().getPositionMatrix();
 
         bufferBuilder.vertex(matrices, x, y + (height * scale), 0).texture(0, 1).next();
         bufferBuilder.vertex(matrices, x + (width * scale), y + (height * scale), 0).texture(1, 1).next();

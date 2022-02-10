@@ -1,6 +1,6 @@
-package com.github.buffmage.mixin;
+package com.clownless.blockify.mixin;
 
-import com.github.buffmage.BlockifyHUD;
+import com.clownless.blockify.BlockifyHUD;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

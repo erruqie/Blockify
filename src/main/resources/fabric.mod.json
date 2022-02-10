@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "id": "blockifybuffmage",
+  "id": "blockify",
   "version": "${version}",
 
   "name": "Blockify",
   "description": "Allows users to passthrough their Spotify information into Minecraft",
   "authors": [
-    "James DeLoach"
+    "James DeLoach & clownless"
   ],
   "contact": {
-    "homepage": "https://github.com/BuffMage",
-    "sources": "https://github.com/BuffMage/Blockify"
+    "homepage": "https://github.com/clownless/Blockify",
+    "sources": "https://github.com/clownless/Blockify"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/blockify/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.buffmage.BlockifyMain"
+      "com.clownless.blockify.BlockifyMain"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "blockify.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.12.12",
     "fabric": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
+    "minecraft": "1.18.x",
+    "java": ">=17"
   },
   "suggests": {
     "another-mod": "*"
