@@ -17,6 +17,10 @@ Allows users to passthrough their Spotify information into Minecraft
 - Reload Blockify - Num 8
 - Hide Blockify - Num 9
 
+## Screenshot
+
+![Screenshot](https://i.imgur.com/yBgOGke.png)
+
 ## Contributing
 
 Any contributions you make are **greatly appreciated**.
