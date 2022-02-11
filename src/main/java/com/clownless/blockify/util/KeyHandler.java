@@ -1,4 +1,4 @@
-package com.github.buffmage.util;
+package com.clownless.blockify.util;
 
 public class KeyHandler
 {

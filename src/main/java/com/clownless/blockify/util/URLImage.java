@@ -1,4 +1,4 @@
-package com.github.buffmage.util;
+package com.clownless.blockify.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;

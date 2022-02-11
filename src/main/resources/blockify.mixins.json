@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.buffmage.mixin",
+  "package": "com.clownless.blockify.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
   ],

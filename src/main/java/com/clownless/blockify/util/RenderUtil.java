@@ -1,4 +1,4 @@
-package com.github.buffmage.util;
+package com.clownless.blockify.util;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
