@@ -34,7 +34,7 @@ public class BlockifyMain implements ModInitializer
         {
             public void run()
             {
-                System.out.println("Hello again!");
+                System.out.println("[Blockify] Successfully loaded");
                 while (true)
                 {
                     try
