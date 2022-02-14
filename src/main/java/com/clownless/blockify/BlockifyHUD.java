@@ -57,9 +57,9 @@ public class BlockifyHUD
         BlockifyHUD.matrixStack = matrixStack;
         scaledWidth = client.getWindow().getScaledWidth();
         scaledHeight = client.getWindow().getScaledHeight();
-        drawRectangle(0, 0, 185, 55, new Color(0, 0, 0, 100));
-        drawRectangle(60, 48, 180, 50, new Color(100, 100, 100, 255));
-        drawRectangle(60, 48, (float) (60 + (120 * percentProgress)), 50, new Color(230, 230, 230, 255));
+        drawRectangle(0, 0, 185, 55, new Color(0, 0, 0, 100)); // background
+        drawRectangle(60, 48, 180, 50, new Color(100, 100, 100, 255)); // progressbar
+        drawRectangle(60, 48, (float) (60 + (120 * percentProgress)), 50, new Color(230, 230, 230, 255)); // progressbar
 
         if (hudInfo[4] != null && (!prevImage.equals(hudInfo[4]) && !hudInfo[4].equals("")))
         {
@@ -80,17 +80,32 @@ public class BlockifyHUD
         int yOffset = 0;
         if (nameWrap.size() > 1)
         {
-            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 10, new Color(255, 255, 255, 255).getRGB());
-            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(1), 60, 23, new Color(255, 255, 255, 255).getRGB());
-            yOffset = 25;
+            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 5, new Color(255, 255, 255, 255).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(1), 60, 18, new Color(255, 255, 255, 255).getRGB());
+            yOffset = 15;
         }
         else
         {
-            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 10, new Color(255, 255, 255, 255).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 5, new Color(255, 255, 255, 255).getRGB());
             yOffset = 0;
         }
         matrixStack.scale(.5F, .5F, .5F);
-        fontRenderer.drawWithShadow(matrixStack, hudInfo[1], 120, 45 + yOffset, new Color(255, 255, 255, 255).getRGB());
+
+
+
+        List<OrderedText> artistWrap = fontRenderer.wrapLines(StringVisitable.plain(hudInfo[1]), 140);
+        int artistYOffset = 0;
+        if (artistWrap.size() > 1)
+        {
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, new Color(255, 255, 255, 255).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(1), 120, 58 + yOffset, new Color(255, 255, 255, 255).getRGB());
+            artistYOffset = 15;
+        }
+        else
+        {
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, new Color(255, 255, 255, 255).getRGB());
+            artistYOffset = 0;
+        }
         String progressText = (progressMS / (1000 * 60)) + ":" + String.format("%02d", (progressMS / 1000 % 60));
         String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d", (durationMS / 1000 % 60));
 
