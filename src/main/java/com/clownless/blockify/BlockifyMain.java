@@ -30,6 +30,7 @@ public class BlockifyMain implements ModInitializer
     @Override
     public void onInitialize()
     {
+        BlockifyConfig.init("blockify", BlockifyConfig.class);
         requestThread = new Thread()
         {
             public void run()
