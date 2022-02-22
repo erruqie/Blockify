@@ -63,9 +63,9 @@ public class BlockifyHUD
         scaledWidth = client.getWindow().getScaledWidth();
         scaledHeight = client.getWindow().getScaledHeight();
 
-        drawRectangle(0, 0, 185, 55, new Color(MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor.substring(1)).getRed(), MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor.substring(1)).getGreen(), MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor.substring(1)).getBlue(), BlockifyConfig.backgroundTransparency)); // background
-        drawRectangle(60, 48, 180, 50, MidnightColorUtil.hex2Rgb(BlockifyConfig.barColor.substring(1)).darker().darker()); // progressbar
-        drawRectangle(60, 48, (float) (60 + (120 * percentProgress)), 50, MidnightColorUtil.hex2Rgb(BlockifyConfig.barColor.substring(1))); // progressbar
+        drawRectangle(0, 0, 185, 55, new Color(MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor).getRed(), MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor).getGreen(), MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor).getBlue(), BlockifyConfig.backgroundTransparency)); // background
+        drawRectangle(60, 48, 180, 50, MidnightColorUtil.hex2Rgb(BlockifyConfig.barColor).darker().darker()); // progressbar
+        drawRectangle(60, 48, (float) (60 + (120 * percentProgress)), 50, MidnightColorUtil.hex2Rgb(BlockifyConfig.barColor)); // progressbar
 
         if (hudInfo[4] != null && (!prevImage.equals(hudInfo[4]) && !hudInfo[4].equals("")))
         {
