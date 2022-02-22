@@ -2,6 +2,7 @@ package com.clownless.blockify;
 
 import com.clownless.blockify.util.RenderUtil;
 import com.clownless.blockify.util.URLImage;
+import eu.midnightdust.lib.util.MidnightColorUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -43,6 +44,7 @@ public class BlockifyHUD
 
     public static void draw(MatrixStack matrixStack)
     {
+        matrixStack.push();
         if (hudInfo[1] == null || isHidden)
         {
             return;
@@ -55,11 +57,15 @@ public class BlockifyHUD
         }
 
         BlockifyHUD.matrixStack = matrixStack;
+        matrixStack.translate((BlockifyConfig.anchor == BlockifyConfig.Anchor.TOP_LEFT || BlockifyConfig.anchor == BlockifyConfig.Anchor.BOTTOM_LEFT) ? BlockifyConfig.posX : scaledWidth - 185 - BlockifyConfig.posX,
+                (BlockifyConfig.anchor == BlockifyConfig.Anchor.TOP_LEFT || BlockifyConfig.anchor == BlockifyConfig.Anchor.TOP_RIGHT) ? BlockifyConfig.posY : scaledHeight - 55 - BlockifyConfig.posY, 0);
+        matrixStack.scale((float) BlockifyConfig.scale, (float) BlockifyConfig.scale,1);
         scaledWidth = client.getWindow().getScaledWidth();
         scaledHeight = client.getWindow().getScaledHeight();
-        drawRectangle(0, 0, 185, 55, new Color(0, 0, 0, 100)); // background
-        drawRectangle(60, 48, 180, 50, new Color(100, 100, 100, 255)); // progressbar
-        drawRectangle(60, 48, (float) (60 + (120 * percentProgress)), 50, new Color(230, 230, 230, 255)); // progressbar
+
+        drawRectangle(0, 0, 185, 55, new Color(MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor.substring(1)).getRed(), MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor.substring(1)).getGreen(), MidnightColorUtil.hex2Rgb(BlockifyConfig.backgroundColor.substring(1)).getBlue(), BlockifyConfig.backgroundTransparency)); // background
+        drawRectangle(60, 48, 180, 50, MidnightColorUtil.hex2Rgb(BlockifyConfig.barColor.substring(1)).darker().darker()); // progressbar
+        drawRectangle(60, 48, (float) (60 + (120 * percentProgress)), 50, MidnightColorUtil.hex2Rgb(BlockifyConfig.barColor.substring(1))); // progressbar
 
         if (hudInfo[4] != null && (!prevImage.equals(hudInfo[4]) && !hudInfo[4].equals("")))
         {
@@ -80,13 +86,13 @@ public class BlockifyHUD
         int yOffset = 0;
         if (nameWrap.size() > 1)
         {
-            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 5, new Color(255, 255, 255, 255).getRGB());
-            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(1), 60, 18, new Color(255, 255, 255, 255).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 5, MidnightColorUtil.hex2Rgb(BlockifyConfig.titleColor).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(1), 60, 18, MidnightColorUtil.hex2Rgb(BlockifyConfig.titleColor).getRGB());
             yOffset = 15;
         }
         else
         {
-            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 5, new Color(255, 255, 255, 255).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60, 5, MidnightColorUtil.hex2Rgb(BlockifyConfig.titleColor).getRGB());
             yOffset = 0;
         }
         matrixStack.scale(.5F, .5F, .5F);
@@ -97,21 +103,23 @@ public class BlockifyHUD
         int artistYOffset = 0;
         if (artistWrap.size() > 1)
         {
-            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, new Color(255, 255, 255, 255).getRGB());
-            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(1), 120, 58 + yOffset, new Color(255, 255, 255, 255).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(1), 120, 58 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
             artistYOffset = 15;
         }
         else
         {
-            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, new Color(255, 255, 255, 255).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
             artistYOffset = 0;
         }
         String progressText = (progressMS / (1000 * 60)) + ":" + String.format("%02d", (progressMS / 1000 % 60));
         String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d", (durationMS / 1000 % 60));
 
-        fontRenderer.drawWithShadow(matrixStack, progressText, 120, 85, new Color(255, 255, 255, 255).getRGB());
-        fontRenderer.drawWithShadow(matrixStack, durationText, 360 - (fontRenderer.getWidth(durationText)), 85, new Color(255, 255, 255, 255).getRGB());
+        fontRenderer.drawWithShadow(matrixStack, progressText, 120, 85, MidnightColorUtil.hex2Rgb(BlockifyConfig.timeColor).getRGB());
+        fontRenderer.drawWithShadow(matrixStack, durationText, 360 - (fontRenderer.getWidth(durationText)), 85, MidnightColorUtil.hex2Rgb(BlockifyConfig.timeColor).getRGB());
         matrixStack.scale(2F, 2F, 2F);
+        matrixStack.scale(1,1,1);
+        matrixStack.pop();
     }
 
     public static void drawRectangle(float x1, float y1, float x2, float y2, Color color)
