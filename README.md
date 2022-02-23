@@ -2,14 +2,14 @@
 
 ## Blockify Mod
 
-Allows users to passthrough their Spotify information into Minecraft
-
 [![CurseForge Downloads](https://is.gd/bycASH)](https://www.curseforge.com/minecraft/mc-mods/blockify)
 [![Modrinth Downloads](https://is.gd/oNgXFH)](https://modrinth.com/mod/blockify)
 [![License](https://img.shields.io/github/license/clownless/blockify?style=flat-square)](https://github.com/clownless/Blockify/blob/mc-1.18/LICENSE)
 [![ModLoader](https://img.shields.io/badge/modloader-Fabric-1976d2?style=flat-square)](https://fabricmc.net/)
 [![Java Version](https://img.shields.io/badge/java-17%20(or%20above)-1976d2?style=flat-square)](https://adoptium.net/releases.html)
 ![Environment](https://img.shields.io/badge/environment-client-1976d2?style=flat-square)
+
+Fork of original [Blockify](https://github.com/BuffMage/Blockify), allows users to passthrough their Spotify information into Minecraft
 
 
 ## How to use
