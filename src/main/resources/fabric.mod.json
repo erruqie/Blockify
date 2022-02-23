@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "id": "blockify",
   "version": "${version}",
-
   "name": "Blockify",
   "description": "Allows users to passthrough their Spotify information into Minecraft",
   "authors": [
-    "James DeLoach & clownless"
+    "James DeLoach",
+    "clownless"
   ],
   "contributors": [
     "Motschen"
@@ -16,10 +16,8 @@
     "sources": "https://github.com/clownless/Blockify",
     "issues": "https://github.com/clownless/Blockify/issues"
   },
-
   "license": "CC0-1.0",
   "icon": "assets/blockify/icon.png",
-
   "environment": "client",
   "entrypoints": {
     "main": [
@@ -29,12 +27,19 @@
   "mixins": [
     "blockify.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.12.12",
     "fabric": "*",
     "minecraft": ">=1.17",
     "java": ">=16",
     "midnightlib": ">=0.4.0"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "midnightlib.modrinth": "https://modrinth.com/mod/blockify",
+        "midnightlib.curseforge": "https://www.curseforge.com/minecraft/mc-mods/blockify"
+      }
+    }
   }
 }

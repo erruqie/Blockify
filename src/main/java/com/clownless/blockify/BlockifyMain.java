@@ -9,6 +9,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Util;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
 
@@ -27,15 +29,17 @@ public class BlockifyMain implements ModInitializer
     private boolean hideKeyPrevState = false;
     private static Thread requestThread;
 
+    public static final Logger LOGGER = LogManager.getLogger("Blockify");
+
     @Override
     public void onInitialize()
     {
+        LOGGER.info("[Blockify] Successfully loaded");
         BlockifyConfig.init("blockify", BlockifyConfig.class);
         requestThread = new Thread()
         {
             public void run()
             {
-                System.out.println("[Blockify] Successfully loaded");
                 while (true)
                 {
                     try

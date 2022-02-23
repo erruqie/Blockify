@@ -9,6 +9,8 @@ import com.sun.net.httpserver.HttpServer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,6 +47,7 @@ public class SpotifyUtil
     private static boolean isAuthorized = false;
     private static boolean isPlaying = false;
 
+    public static final Logger LOGGER = LogManager.getLogger("Blockify");
 
     public static void initialize()
     {
@@ -55,7 +58,7 @@ public class SpotifyUtil
             if (!authFile.exists())
             {
                 authFile.createNewFile();
-                System.out.println("Created new token file at: " + authFile.getAbsolutePath());
+                LOGGER.info("Created new token file at: " + authFile.getAbsolutePath());
                 accessToken = "";
                 refreshToken = "";
                 isAuthorized = false;
@@ -193,7 +196,7 @@ public class SpotifyUtil
 
     public static void refreshActiveSession()
     {
-        System.out.println("Attempting to refresh active session...");
+        LOGGER.info("Attempting to refresh active session...");
         try
         {
             HttpRequest getDevices = HttpRequest.newBuilder(
@@ -229,13 +232,13 @@ public class SpotifyUtil
                     .header("Authorization", "Bearer " + accessToken)
                     .PUT(HttpRequest.BodyPublishers.ofString(deviceIDBody))
                     .build();
-            System.out.println("Responded with :" + client.send(setActive, HttpResponse.BodyHandlers.ofString()).statusCode());
+            LOGGER.info("Responded with :" + client.send(setActive, HttpResponse.BodyHandlers.ofString()).statusCode());
 
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-        System.out.println("Successfully refreshed active session");
+        LOGGER.info("Successfully refreshed active session");
     }
 
     public static void putRequest(String type)
@@ -246,13 +249,13 @@ public class SpotifyUtil
                     .PUT(HttpRequest.BodyPublishers.ofString(""))
                     .header("Authorization", "Bearer " + accessToken).build();
             HttpResponse<String> putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Put Request (" + type + "): " + putRes.statusCode());
+            LOGGER.info("Put Request (" + type + "): " + putRes.statusCode());
             if (putRes.statusCode() == 404)
             {
                 refreshActiveSession();
-                System.out.println("Retrying put request...");
+                LOGGER.info("Retrying put request...");
                 putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Put Request (" + type + "): " + putRes.statusCode());
+                LOGGER.info("Put Request (" + type + "): " + putRes.statusCode());
             }
             else if (putRes.statusCode() == 401)
             {
@@ -269,9 +272,9 @@ public class SpotifyUtil
         {
             if (e instanceof IOException && e.getMessage().equals("Connection reset"))
             {
-                System.out.println("Attempting to retry put request...");
+                LOGGER.info("Attempting to retry put request...");
                 putRequest(type);
-                System.out.println("Successfully sent put request");
+                LOGGER.info("Successfully sent put request");
             }
             else
             {
@@ -289,13 +292,13 @@ public class SpotifyUtil
                     .POST(HttpRequest.BodyPublishers.ofString(""))
                     .header("Authorization", "Bearer " + accessToken).build();
             HttpResponse<String> postRes = client.send(postReq, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Post Request (" + type + "): " + postRes.statusCode());
+            LOGGER.info("Post Request (" + type + "): " + postRes.statusCode());
             if (postRes.statusCode() == 404)
             {
                 refreshActiveSession();
-                System.out.println("Retrying post request...");
+                LOGGER.info("Retrying post request...");
                 postRes = client.send(postReq, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Put Request (" + type + "): " + postRes.statusCode());
+                LOGGER.info("Put Request (" + type + "): " + postRes.statusCode());
             }
             else if (postRes.statusCode() == 401)
             {
@@ -312,9 +315,9 @@ public class SpotifyUtil
         {
             if (e instanceof IOException && e.getMessage().equals("Connection reset"))
             {
-                System.out.println("Attempting to retry post request...");
+                LOGGER.info("Attempting to retry post request...");
                 postRequest(type);
-                System.out.println("Successfully sent post request");
+                LOGGER.info("Successfully sent post request");
             }
             else
             {
@@ -377,7 +380,7 @@ public class SpotifyUtil
 
     public static String[] getPlaybackInfo()
     {
-        System.out.println("Attempting to retrieve data from Spotify...");
+        LOGGER.info("Attempting to retrieve data from Spotify...");
         String[] results = new String[5];
         try
         {
@@ -446,7 +449,7 @@ public class SpotifyUtil
         {
             if (e instanceof IOException && e.getMessage().equals("Connection reset"))
             {
-                System.out.println("Resetting connection and retrying info get...");
+                LOGGER.info("Resetting connection and retrying info get...");
                 results[0] = "Reset";
             }
             else
