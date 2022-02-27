@@ -37,6 +37,7 @@
   "custom": {
     "modmenu": {
       "links": {
+        "modmenu.discord": "https://discord.gg/bSgZxY3rQm",
         "midnightlib.modrinth": "https://modrinth.com/mod/blockify",
         "midnightlib.curseforge": "https://www.curseforge.com/minecraft/mc-mods/blockify"
       }
