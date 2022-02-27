@@ -8,6 +8,7 @@
 [![ModLoader](https://img.shields.io/badge/modloader-Fabric-1976d2?style=flat-square)](https://fabricmc.net/)
 [![Java Version](https://img.shields.io/badge/java-17%20(or%20above)-1976d2?style=flat-square)](https://adoptium.net/releases.html)
 ![Environment](https://img.shields.io/badge/environment-client-1976d2?style=flat-square)
+[![Discord](https://img.shields.io/discord/837540892411691008?label=discord&style=flat-square)](https://discord.gg/bSgZxY3rQm)
 
 Fork of original [Blockify](https://github.com/BuffMage/Blockify), allows users to passthrough their Spotify information into Minecraft
 
