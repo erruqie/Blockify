@@ -1,4 +1,4 @@
-package com.clownless.blockify.util;
+package one.clownless.blockify.util;
 
 public class KeyHandler
 {

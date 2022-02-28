@@ -21,7 +21,7 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-      "com.clownless.blockify.BlockifyMain"
+      "one.clownless.blockify.BlockifyMain"
     ]
   },
   "mixins": [

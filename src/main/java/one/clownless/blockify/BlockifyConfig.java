@@ -1,4 +1,4 @@
-package com.clownless.blockify;
+package one.clownless.blockify;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 

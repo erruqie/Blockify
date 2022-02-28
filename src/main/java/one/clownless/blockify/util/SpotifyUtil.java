@@ -1,7 +1,7 @@
-package com.clownless.blockify.util;
+package one.clownless.blockify.util;
 
 
-import com.clownless.blockify.BlockifyHUD;
+import one.clownless.blockify.BlockifyHUD;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

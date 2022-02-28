@@ -1,4 +1,4 @@
-package com.clownless.blockify.util;
+package one.clownless.blockify.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

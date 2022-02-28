@@ -1,7 +1,7 @@
-package com.clownless.blockify;
+package one.clownless.blockify;
 
-import com.clownless.blockify.util.RenderUtil;
-import com.clownless.blockify.util.URLImage;
+import one.clownless.blockify.util.RenderUtil;
+import one.clownless.blockify.util.URLImage;
 import eu.midnightdust.lib.util.MidnightColorUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
