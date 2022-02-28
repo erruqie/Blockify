@@ -88,9 +88,18 @@ public class BlockifyMain implements ModInitializer
         requestThread.setName("Spotify Thread");
         requestThread.start();
         SpotifyUtil.initialize();
+        prevKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "blockify.key.prev",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_KP_4,
+                        "Blockify"
+                )
+        );
+
         playKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
-                        "Play/Pause",
+                        "blockify.key.play",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_KP_5,
                         "Blockify"
@@ -99,33 +108,25 @@ public class BlockifyMain implements ModInitializer
 
         nextKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
-                        "Next Song",
+                        "blockify.key.next",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_KP_6,
                         "Blockify"
                 )
         );
 
-        prevKey = KeyBindingHelper.registerKeyBinding(
-                new KeyBinding(
-                        "Previous Song",
-                        InputUtil.Type.KEYSYM,
-                        GLFW.GLFW_KEY_KP_4,
-                        "Blockify"
-                )
-        );
-
         forceKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
-                        "Force Update",
+                        "blockify.key.force",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_KP_8,
                         "Blockify"
                 )
         );
+
         hideKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
-                        "Hide Spotify",
+                        "blockify.key.hide",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_KP_9,
                         "Blockify"

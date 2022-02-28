@@ -1,0 +1,31 @@
+{
+  "blockify.key.play": "Воспроизведение/Пауза",
+  "blockify.key.next": "Следующий трек",
+  "blockify.key.prev": "Предыдущий трек",
+  "blockify.key.force": "Перезагрузить интерфейс",
+  "blockify.key.hide": "Скрыть интерфейс",
+
+
+  "blockify.midnightconfig.title": "Настройки Blockify",
+  "blockify.midnightconfig.midnightlib_description": "§nMidnightLib",
+  "blockify.midnightconfig.scale": "Масштаб",
+  "blockify.midnightconfig.posX": "Позиция по X",
+  "blockify.midnightconfig.posY": "Позиция по Y",
+  "blockify.midnightconfig.anchor": "Расположение",
+  "blockify.midnightconfig.enum.Anchor.TOP_LEFT": "Левый верхний угол",
+  "blockify.midnightconfig.enum.Anchor.TOP_RIGHT": "Правый верхний угол",
+  "blockify.midnightconfig.enum.Anchor.BOTTOM_LEFT": "Левый нижний угол",
+  "blockify.midnightconfig.enum.Anchor.BOTTOM_RIGHT": "Нижний правый угол",
+  "blockify.midnightconfig.titleColor": "Цвет названия трека",
+  "blockify.midnightconfig.artistColor": "Цвет артистов",
+  "blockify.midnightconfig.timeColor": "Цвет времени",
+  "blockify.midnightconfig.barColor": "Цвет прогресса трека",
+  "blockify.midnightconfig.backgroundColor": "Цвет заднего фона",
+  "blockify.midnightconfig.backgroundTransparency": "Прозрачность фона",
+  "blockify.midnightconfig.titleColor.tooltip": "HEX цвет",
+  "blockify.midnightconfig.artistColor.tooltip": "HEX цвет",
+  "blockify.midnightconfig.timeColor.tooltip": "HEX цвет",
+  "blockify.midnightconfig.barColor.tooltip": "HEX цвет",
+  "blockify.midnightconfig.backgroundColor.tooltip": "HEX цвет",
+  "blockify.midnightconfig.backgroundTransparency.tooltip": "0-255"
+}
