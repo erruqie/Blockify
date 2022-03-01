@@ -21,7 +21,7 @@ public class BlockifyHUD
     private static int scaledHeight;
     private static URLImage albumImage;
     private static TextRenderer fontRenderer;
-    private static String[] hudInfo;
+    public static String[] hudInfo;
     private static int ticks;
     private static String prevImage;
     private static int progressMS;
@@ -36,7 +36,7 @@ public class BlockifyHUD
         albumImage = new URLImage(300, 300);
         fontRenderer = client.textRenderer;
         ticks = 0;
-        hudInfo = new String[5];
+        hudInfo = new String[6];
         prevImage = "empty";
         progressMS = 0;
         durationMS = -1;
@@ -72,6 +72,7 @@ public class BlockifyHUD
             System.out.println("Drawing new album cover.");
             albumImage.setImage(hudInfo[4]);
             prevImage = hudInfo[4];
+            System.out.println("track url ");
         }
 
 

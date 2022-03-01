@@ -3,6 +3,7 @@ package one.clownless.blockify;
 
 import one.clownless.blockify.util.SpotifyUtil;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -12,6 +13,7 @@ import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
+
 
 
 public class BlockifyMain implements ModInitializer
@@ -150,6 +152,16 @@ public class BlockifyMain implements ModInitializer
                     }
                 }
         );
+
+        ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("sharetrack").executes(context -> {
+            var player = MinecraftClient.getInstance().player;
+            if (player == null) {
+                System.out.println("null");
+                return 0;
+            }
+            player.sendChatMessage("Right now I'm listening to " + BlockifyHUD.hudInfo[1] + " - " + BlockifyHUD.hudInfo[0] + ". " + BlockifyHUD.hudInfo[5]);
+            return 1;
+        }));
     }
 
 
@@ -161,7 +173,6 @@ public class BlockifyMain implements ModInitializer
             if (currPressState && !playKeyPrevState)
             {
 
-                //MinecraftClient.getInstance().player.sendMessage(new LiteralText("Key Pad 5 was pressed!"), false);
                 if (SpotifyUtil.isAuthorized())
                 {
                     System.out.println("Authorized!");
