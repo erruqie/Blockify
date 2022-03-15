@@ -157,7 +157,7 @@ public class BlockifyMain implements ModInitializer
         ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("sharetrack").executes(context -> {
             var player = MinecraftClient.getInstance().player;
             if (player == null) { return 0; }
-            player.sendChatMessage("Right now I'm listening to " + BlockifyHUD.hudInfo[1] + " - " + BlockifyHUD.hudInfo[0] + ". " + BlockifyHUD.hudInfo[5]);
+            player.sendChatMessage(BlockifyHUD.hudInfo[5]);
             return 1;
         }));
     }
