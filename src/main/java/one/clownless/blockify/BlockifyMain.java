@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Util;
@@ -52,6 +51,7 @@ public class BlockifyMain implements ModInitializer
                         {
                             if (BlockifyHUD.getDuration() < BlockifyHUD.getProgress())
                             {
+                                Thread.sleep(1000);
                                 String [] data = SpotifyUtil.getPlaybackInfo();
                                 if (data[0] != null && data[0].equals("Status Code: 204"))
                                 {
