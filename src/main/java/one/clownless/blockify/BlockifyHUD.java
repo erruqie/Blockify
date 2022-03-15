@@ -9,6 +9,8 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.StringVisitable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.Color;
 import java.util.List;
@@ -27,6 +29,7 @@ public class BlockifyHUD
     private static int progressMS;
     private static int durationMS;
     public static boolean isHidden = false;
+    public static final Logger LOGGER = LogManager.getLogger("Blockify");
 
     public BlockifyHUD(MinecraftClient client)
     {
@@ -69,10 +72,9 @@ public class BlockifyHUD
 
         if (hudInfo[4] != null && (!prevImage.equals(hudInfo[4]) && !hudInfo[4].equals("")))
         {
-            System.out.println("Drawing new album cover.");
+            LOGGER.info("Drawing new album cover.");
             albumImage.setImage(hudInfo[4]);
             prevImage = hudInfo[4];
-            System.out.println("track url ");
         }
 
 

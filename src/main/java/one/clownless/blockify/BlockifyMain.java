@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Util;
@@ -62,7 +63,7 @@ public class BlockifyMain implements ModInitializer
                                 }
                                 else if (data[0] != null && data[0].equals("Reset"))
                                 {
-                                    System.out.println("Reset condition, maintaining HUD until reset");
+                                    LOGGER.info("Reset condition, maintaining HUD until reset");
                                 }
                                 else
                                 {
@@ -155,10 +156,7 @@ public class BlockifyMain implements ModInitializer
 
         ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("sharetrack").executes(context -> {
             var player = MinecraftClient.getInstance().player;
-            if (player == null) {
-                System.out.println("null");
-                return 0;
-            }
+            if (player == null) { return 0; }
             player.sendChatMessage("Right now I'm listening to " + BlockifyHUD.hudInfo[1] + " - " + BlockifyHUD.hudInfo[0] + ". " + BlockifyHUD.hudInfo[5]);
             return 1;
         }));
@@ -175,7 +173,7 @@ public class BlockifyMain implements ModInitializer
 
                 if (SpotifyUtil.isAuthorized())
                 {
-                    System.out.println("Authorized!");
+                    LOGGER.info("Authorized!");
                     SpotifyUtil.playPause();
                 }
                 else
@@ -194,7 +192,7 @@ public class BlockifyMain implements ModInitializer
     {
         if (currPressState && !nextKeyPrevState)
         {
-            System.out.println("Next Key Pressed");
+            LOGGER.info("Next Key Pressed");
             SpotifyUtil.nextSong();
         }
         nextKeyPrevState = currPressState;
@@ -204,7 +202,7 @@ public class BlockifyMain implements ModInitializer
     {
         if (currPressState && !prevKeyPrevState)
         {
-            System.out.println("Previous Key Pressed");
+            LOGGER.info("Previous Key Pressed");
             SpotifyUtil.prevSong();
         }
         prevKeyPrevState = currPressState;
@@ -214,7 +212,7 @@ public class BlockifyMain implements ModInitializer
     {
         if (currPressState && !forceKeyPrevState)
         {
-            System.out.println("Force Key Pressed");
+            LOGGER.info("Force Key Pressed");
             BlockifyHUD.setDuration(-2000);
         }
         forceKeyPrevState = currPressState;
@@ -224,7 +222,7 @@ public class BlockifyMain implements ModInitializer
     {
         if (currPressState && !hideKeyPrevState)
         {
-            System.out.println("Hide Key Pressed");
+            LOGGER.info("Hide Key Pressed");
             if (BlockifyHUD.isHidden)
             {
                 BlockifyHUD.isHidden = false;
