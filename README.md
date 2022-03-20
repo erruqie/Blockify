@@ -1,6 +1,7 @@
 <img src="./src/main/resources/assets/blockify/icon.png" width="150" align="left"/>
 
 ## Blockify Mod
+[![Crowdin](https://is.gd/TfsUVl)](https://ru.crowdin.com/project/blockify)
 [![Donate](https://is.gd/WEPmOF)](https://liberapay.com/clownless)
 [![CurseForge Downloads](https://is.gd/bycASH)](https://www.curseforge.com/minecraft/mc-mods/blockify)
 [![Modrinth Downloads](https://is.gd/oNgXFH)](https://modrinth.com/mod/blockify)
@@ -35,3 +36,6 @@ Any contributions you make are **greatly appreciated**.
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## Localisation
+[![Crowdin](https://is.gd/TfsUVl)](https://ru.crowdin.com/project/blockify)
