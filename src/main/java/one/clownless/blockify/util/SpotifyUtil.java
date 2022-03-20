@@ -381,7 +381,7 @@ public class SpotifyUtil
     public static String[] getPlaybackInfo()
     {
         LOGGER.info("Attempting to retrieve data from Spotify...");
-        String[] results = new String[6];
+        String[] results = new String[7];
         try
         {
             playbackResponse = client.send(playbackRequest, HttpResponse.BodyHandlers.ofString());
@@ -403,7 +403,6 @@ public class SpotifyUtil
                     return results;
                 }
                 results[0] = json.get("item").getAsJsonObject().get("name").getAsString();
-                //results[1] = json.get("item").getAsJsonObject().get("artists").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
                 JsonArray artistArray = json.get("item").getAsJsonObject().get("artists").getAsJsonArray();
                 StringBuilder artistString = new StringBuilder();
                 for (int i = 0; i < artistArray.size(); i++)
@@ -432,6 +431,7 @@ public class SpotifyUtil
                     results[4] = null;
                 }
                 results[5] = json.get("item").getAsJsonObject().get("external_urls").getAsJsonObject().get("spotify").getAsString();
+                results[6] = json.get("device").getAsJsonObject().get("volume_percent").getAsString();
                 isPlaying = json.get("is_playing").getAsBoolean();
             }
             else if (playbackResponse.statusCode() == 401)

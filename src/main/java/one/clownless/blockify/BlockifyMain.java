@@ -24,11 +24,15 @@ public class BlockifyMain implements ModInitializer
     private static KeyBinding prevKey;
     private static KeyBinding forceKey;
     private static KeyBinding hideKey;
+    private static KeyBinding increaseVolumeKey;
+    private static KeyBinding decreaseVolumeKey;
     private boolean playKeyPrevState = false;
     private boolean nextKeyPrevState = false;
     private boolean prevKeyPrevState = false;
     private boolean forceKeyPrevState = false;
     private boolean hideKeyPrevState = false;
+    private boolean increaseVolumeKeyPrevState = false;
+    private boolean decreaseVolumeKeyPrevState = false;
     private static Thread requestThread;
 
     public static final Logger LOGGER = LogManager.getLogger("Blockify");
@@ -136,6 +140,24 @@ public class BlockifyMain implements ModInitializer
                 )
         );
 
+        increaseVolumeKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "blockify.key.increaseVolume",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_KP_ADD,
+                        "Blockify"
+                )
+        );
+
+        decreaseVolumeKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "blockify.key.decreaseVolume",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_KP_SUBTRACT,
+                        "Blockify"
+                )
+        );
+
         ClientTickEvents.END_CLIENT_TICK.register(
                 client ->
                 {
@@ -146,6 +168,8 @@ public class BlockifyMain implements ModInitializer
                         prevKeyHandler(prevKey.isPressed());
                         forceKeyHandler(forceKey.isPressed());
                         hideKeyHandler(hideKey.isPressed());
+                        increaseVolumeKeyHandler(increaseVolumeKey.isPressed());
+                        decreaseVolumeKeyHandler(decreaseVolumeKey.isPressed());
 
                     } catch (Exception e)
                     {
@@ -233,5 +257,25 @@ public class BlockifyMain implements ModInitializer
             }
         }
         hideKeyPrevState = currPressState;
+    }
+
+    public void increaseVolumeKeyHandler(boolean currPressState)
+    {
+        if (currPressState && !increaseVolumeKeyPrevState)
+        {
+            LOGGER.info("Increase Volume Key Pressed");
+            BlockifyHUD.increaseVolume();
+        }
+        increaseVolumeKeyPrevState = currPressState;
+    }
+
+    public void decreaseVolumeKeyHandler(boolean currPressState)
+    {
+        if (currPressState && !decreaseVolumeKeyPrevState)
+        {
+            LOGGER.info("Decrease Volume Key Pressed");
+            BlockifyHUD.decreaseVolume();
+        }
+        decreaseVolumeKeyPrevState = currPressState;
     }
 }

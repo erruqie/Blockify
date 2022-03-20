@@ -1,6 +1,7 @@
 package one.clownless.blockify;
 
 import one.clownless.blockify.util.RenderUtil;
+import one.clownless.blockify.util.SpotifyUtil;
 import one.clownless.blockify.util.URLImage;
 import eu.midnightdust.lib.util.MidnightColorUtil;
 import net.minecraft.client.MinecraftClient;
@@ -28,6 +29,8 @@ public class BlockifyHUD
     private static String prevImage;
     private static int progressMS;
     private static int durationMS;
+    private static int prevVolume;
+    private static int newVolume;
     public static boolean isHidden = false;
     public static final Logger LOGGER = LogManager.getLogger("Blockify");
 
@@ -39,7 +42,7 @@ public class BlockifyHUD
         albumImage = new URLImage(300, 300);
         fontRenderer = client.textRenderer;
         ticks = 0;
-        hudInfo = new String[6];
+        hudInfo = new String[7];
         prevImage = "empty";
         progressMS = 0;
         durationMS = -1;
@@ -106,17 +109,17 @@ public class BlockifyHUD
         int artistYOffset = 0;
         if (artistWrap.size() > 1)
         {
-            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
-            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(1), 120, 58 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 44 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(1), 120, 57 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
             artistYOffset = 15;
         }
         else
         {
-            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 45 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
+            fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120, 44 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
             artistYOffset = 0;
         }
         String progressText = (progressMS / (1000 * 60)) + ":" + String.format("%02d", (progressMS / 1000 % 60));
-        String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d", (durationMS / 1000 % 60));
+        String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d", (durationMS / 1000 % 60)) + " Volume: " + hudInfo[6];
 
         fontRenderer.drawWithShadow(matrixStack, progressText, 120, 85, MidnightColorUtil.hex2Rgb(BlockifyConfig.timeColor).getRGB());
         fontRenderer.drawWithShadow(matrixStack, durationText, 360 - (fontRenderer.getWidth(durationText)), 85, MidnightColorUtil.hex2Rgb(BlockifyConfig.timeColor).getRGB());
@@ -157,6 +160,40 @@ public class BlockifyHUD
         durationMS = duration;
     }
 
+    public static void increaseVolume()
+    {
+        prevVolume = Integer.parseInt(hudInfo[6]);
+        LOGGER.info("Prev volume: " + prevVolume);
+        newVolume = prevVolume + 10;
+        if (prevVolume == 100)
+        {
+            return;
+        }
+        else if (newVolume > 100)
+        {
+            newVolume = 100;
+        }
+        SpotifyUtil.putRequest("volume?volume_percent=" + newVolume);
+        LOGGER.info("Set new volume: " + newVolume);
+        hudInfo[6] = String.valueOf(newVolume);
+    }
+    public static void decreaseVolume()
+    {
+        prevVolume = Integer.parseInt(hudInfo[6]);
+        LOGGER.info("Prev volume: " + prevVolume);
+        newVolume = prevVolume - 10;
+        if (prevVolume == 0)
+        {
+            return;
+        }
+        else if (newVolume < 0)
+        {
+            newVolume = 0;
+        }
+        SpotifyUtil.putRequest("volume?volume_percent=" + newVolume);
+        LOGGER.info("Set new volume: " + newVolume);
+        hudInfo[6] = String.valueOf(newVolume);
+    }
 
 
 }
