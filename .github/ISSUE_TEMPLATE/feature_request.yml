@@ -7,6 +7,6 @@ body:
     id: describe-feature
     attributes:
       label: Describe the feature you propose
-      placeholder:  ex. I disabled some particles and my game crashed.
+      description: "Fully describe the feature that you propose, and write where it can be used."
     validations:
       required: true
