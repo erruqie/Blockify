@@ -1,0 +1,12 @@
+name: Feature Request
+description: Suggest a new feature
+title: "[Feature Request]: "
+labels: feature-request
+body:
+  - type: textarea
+    id: describe-feature
+    attributes:
+      label: Describe the feature you propose
+      placeholder:  ex. I disabled some particles and my game crashed.
+    validations:
+      required: true
