@@ -1,11 +1,10 @@
 {
+  "blockify.key.category": "Blockify",
   "blockify.key.play": "Воспроизведение/Пауза",
   "blockify.key.next": "Следующий трек",
   "blockify.key.prev": "Предыдущий трек",
   "blockify.key.force": "Перезагрузить интерфейс",
   "blockify.key.hide": "Скрыть интерфейс",
-
-
   "blockify.midnightconfig.title": "Настройки Blockify",
   "blockify.midnightconfig.midnightlib_description": "§nMidnightLib",
   "blockify.midnightconfig.scale": "Масштаб",
