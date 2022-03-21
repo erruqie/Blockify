@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.StringVisitable;
 import org.apache.logging.log4j.LogManager;
@@ -122,7 +123,7 @@ public class BlockifyHUD
             artistYOffset = 0;
         }
         String progressText = (progressMS / (1000 * 60)) + ":" + String.format("%02d", (progressMS / 1000 % 60));
-        String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d", (durationMS / 1000 % 60)) + " Volume: " + hudInfo[6];
+        String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d ", (durationMS / 1000 % 60)) + I18n.translate("blockify.hud.volume") + ": " + hudInfo[6];
 
         fontRenderer.drawWithShadow(matrixStack, progressText, 120, 85, MidnightColorUtil.hex2Rgb(BlockifyConfig.timeColor).getRGB());
         fontRenderer.drawWithShadow(matrixStack, durationText, 360 - (fontRenderer.getWidth(durationText)), 85, MidnightColorUtil.hex2Rgb(BlockifyConfig.timeColor).getRGB());
