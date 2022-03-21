@@ -7,6 +7,7 @@
   "blockify.key.hide": "Скрыть интерфейс",
   "blockify.key.increaseVolume": "Увеличить громкость",
   "blockify.key.decreaseVolume": "Уменьшить громкость",
+  "blockify.hud.volume": "Volume",
   "blockify.midnightconfig.title": "Настройки Blockify",
   "blockify.midnightconfig.midnightlib_description": "§nMidnightLib",
   "blockify.midnightconfig.scale": "Масштаб",
