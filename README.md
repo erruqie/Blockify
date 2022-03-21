@@ -21,6 +21,8 @@ Fork of original [Blockify](https://github.com/BuffMage/Blockify), allows users 
 - Next Song - Num 6
 - Reload Blockify - Num 8
 - Hide Blockify - Num 9
+- Inscrease Volume - Num +
+- Decrease Volume - Num -
 
 ## Screenshots
 
