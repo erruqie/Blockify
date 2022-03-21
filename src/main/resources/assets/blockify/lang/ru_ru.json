@@ -24,10 +24,10 @@
   "blockify.midnightconfig.barColor": "Цвет прогресса трека",
   "blockify.midnightconfig.backgroundColor": "Цвет заднего фона",
   "blockify.midnightconfig.backgroundTransparency": "Прозрачность фона",
-  "blockify.midnightconfig.titleColor.tooltip": "HEX цвет",
-  "blockify.midnightconfig.artistColor.tooltip": "HEX цвет",
-  "blockify.midnightconfig.timeColor.tooltip": "HEX цвет",
-  "blockify.midnightconfig.barColor.tooltip": "HEX цвет",
-  "blockify.midnightconfig.backgroundColor.tooltip": "HEX цвет",
+  "blockify.midnightconfig.titleColor.tooltip": "Шестнадцатеричный цвет",
+  "blockify.midnightconfig.artistColor.tooltip": "Шестнадцатеричный цвет",
+  "blockify.midnightconfig.timeColor.tooltip": "Шестнадцатеричный цвет",
+  "blockify.midnightconfig.barColor.tooltip": "Шестнадцатеричный цвет",
+  "blockify.midnightconfig.backgroundColor.tooltip": "Шестнадцатеричный цвет",
   "blockify.midnightconfig.backgroundTransparency.tooltip": "0-255"
 }

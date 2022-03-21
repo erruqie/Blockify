@@ -1,3 +1,15 @@
+buildscript {
+	dependencies {
+		classpath "de.guntram.mcmod:crowdin-translate:${project.crowdintranslate_version}"
+	}
+	repositories {
+		maven {
+			name = 'CrowdinTranslate source'
+			url = "https://minecraft.guntram.de/maven/"
+		}
+	}
+}
+
 plugins {
 	id 'fabric-loom' version '0.11-SNAPSHOT'
 	id 'maven-publish'
@@ -11,8 +23,18 @@ archivesBaseName = "${project.archives_base_name}-${project.minecraft_version}"
 version = project.mod_version
 group = project.maven_group
 
+apply plugin: 'de.guntram.mcmod.crowdin-translate'
+crowdintranslate.crowdinProjectName = 'blockify'
+crowdintranslate.minecraftProjectName = "blockify"
+crowdintranslate.verbose = false
+
+build {
+	dependsOn downloadTranslations
+}
+
 repositories {
 	maven { url = "https://api.modrinth.com/maven" }
+	maven { url = "https://minecraft.guntram.de/maven" }
 }
 
 dependencies {
@@ -25,7 +47,8 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
 	include "maven.modrinth:midnightlib:${project.midnightlib_version}"
-
+	modImplementation "de.guntram.mcmod:crowdin-translate:${project.crowdintranslate_version}"
+	include "de.guntram.mcmod:crowdin-translate:${project.crowdintranslate_version}"
 }
 
 processResources {
