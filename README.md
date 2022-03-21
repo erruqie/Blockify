@@ -22,9 +22,11 @@ Fork of original [Blockify](https://github.com/BuffMage/Blockify), allows users 
 - Reload Blockify - Num 8
 - Hide Blockify - Num 9
 
-## Screenshot
+## Screenshots
 
-![Screenshot](https://i.imgur.com/yBgOGke.png)
+![Screenshot 1](https://i.imgur.com/5gebkFC.jpeg)
+![Screenshot 2](https://i.imgur.com/J74wZr8.jpeg)
+![Screenshot 3](https://i.imgur.com/c9Lajim.png)
 
 ## Contributing
 
