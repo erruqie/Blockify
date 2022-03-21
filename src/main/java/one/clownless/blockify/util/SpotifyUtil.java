@@ -25,6 +25,7 @@ import java.net.http.HttpResponse;
 
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -48,6 +49,7 @@ public class SpotifyUtil
     private static boolean isPlaying = false;
 
     public static final Logger LOGGER = LogManager.getLogger("Blockify");
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     public static void initialize()
     {
@@ -84,7 +86,7 @@ public class SpotifyUtil
             }
         } catch (IOException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         client = HttpClient.newHttpClient();
         updatePlaybackRequest();
@@ -113,7 +115,7 @@ public class SpotifyUtil
             authServer.start();
         } catch (Exception e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         if (authURI == null)
         {
@@ -157,7 +159,7 @@ public class SpotifyUtil
             isAuthorized = true;
         } catch (Exception e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -189,7 +191,7 @@ public class SpotifyUtil
             }
         } catch (Exception e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return false;
     }
@@ -236,7 +238,7 @@ public class SpotifyUtil
 
         } catch (Exception e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         LOGGER.info("Successfully refreshed active session");
     }
@@ -278,7 +280,7 @@ public class SpotifyUtil
             }
             else
             {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage());
             }
         }
 
@@ -321,47 +323,39 @@ public class SpotifyUtil
             }
             else
             {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage());
             }
         }
     }
 
     public static void nextSong()
     {
-        Thread thread = new Thread(() ->
-        {
+        EXECUTOR_SERVICE.execute(() -> {
             postRequest("next");
             BlockifyHUD.setDuration(-2000);
         });
-        thread.start();
     }
 
     public static void prevSong()
     {
-        Thread thread = new Thread(() ->
-        {
+        EXECUTOR_SERVICE.execute(() -> {
             postRequest("previous");
             BlockifyHUD.setDuration(-2000);
         });
-        thread.start();
     }
 
     public static void playSong()
     {
-        Thread thread = new Thread(() ->
-        {
+        EXECUTOR_SERVICE.execute(() -> {
             putRequest("play");
         });
-        thread.start();
     }
 
     public static void pauseSong()
     {
-        Thread thread = new Thread(() ->
-        {
+        EXECUTOR_SERVICE.execute(() -> {
             putRequest("pause");
         });
-        thread.start();
     }
 
     public static void playPause()
@@ -455,7 +449,7 @@ public class SpotifyUtil
             }
             else
             {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage());
             }
         }
         return results;
@@ -471,7 +465,7 @@ public class SpotifyUtil
             jsonWriter.close();
         } catch (IOException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 

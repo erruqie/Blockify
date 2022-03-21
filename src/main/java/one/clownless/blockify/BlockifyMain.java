@@ -47,48 +47,31 @@ public class BlockifyMain implements ModInitializer
             public void run()
             {
                 while (true)
-                {
-                    try
-                    {
+                    try {
                         Thread.sleep(1000);
-                        if (MinecraftClient.getInstance().world != null)
-                        {
-                            if (BlockifyHUD.getDuration() < BlockifyHUD.getProgress())
-                            {
+                        if (MinecraftClient.getInstance().world != null) {
+                            if (BlockifyHUD.getDuration() < BlockifyHUD.getProgress()) {
                                 Thread.sleep(1000);
-                                String [] data = SpotifyUtil.getPlaybackInfo();
-                                if (data[0] != null && data[0].equals("Status Code: 204"))
-                                {
+                                String[] data = SpotifyUtil.getPlaybackInfo();
+                                if (data[0] != null && data[0].equals("Status Code: 204")) {
                                     SpotifyUtil.refreshActiveSession();
-                                }
-                                else if (data[0] != null && data[0].equals("Status Code: 429"))
-                                {
+                                } else if (data[0] != null && data[0].equals("Status Code: 429")) {
                                     Thread.sleep(3000);
-                                }
-                                else if (data[0] != null && data[0].equals("Reset"))
-                                {
+                                } else if (data[0] != null && data[0].equals("Reset")) {
                                     LOGGER.info("Reset condition, maintaining HUD until reset");
-                                }
-                                else
-                                {
+                                } else {
                                     BlockifyHUD.updateData(data);
                                 }
-                            }
-                            else if (SpotifyUtil.isPlaying())
-                            {
+                            } else if (SpotifyUtil.isPlaying()) {
                                 BlockifyHUD.setProgress(BlockifyHUD.getProgress() + 1000);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             BlockifyHUD.setProgress(0);
                             BlockifyHUD.setDuration(-1);
                         }
-                    } catch (InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
             }
 
         };
@@ -173,7 +156,7 @@ public class BlockifyMain implements ModInitializer
 
                     } catch (Exception e)
                     {
-                        e.printStackTrace();
+                        LOGGER.error(e.getMessage());
                     }
                 }
         );
@@ -185,8 +168,6 @@ public class BlockifyMain implements ModInitializer
             return 1;
         }));
     }
-
-
 
     public void playKeyHandler(boolean currPressState)
     {
@@ -208,7 +189,7 @@ public class BlockifyMain implements ModInitializer
             playKeyPrevState = currPressState;
         } catch (Exception e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 

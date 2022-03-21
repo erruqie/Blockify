@@ -4,6 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,6 +28,7 @@ public class URLImage
     private int width;
     private int height;
     private static MinecraftClient client;
+    public static final Logger LOGGER = LogManager.getLogger("Blockify");
 
     public URLImage(int width, int height)
     {
@@ -68,12 +71,9 @@ public class URLImage
             in.close();
             con.disconnect();
             img.flush();
-        } catch (MalformedURLException e)
-        {
-            e.printStackTrace();
         } catch (IOException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 

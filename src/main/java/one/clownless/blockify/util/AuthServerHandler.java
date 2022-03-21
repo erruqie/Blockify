@@ -6,10 +6,14 @@ import java.net.URISyntaxException;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class AuthServerHandler implements HttpHandler
 {
+
+    public static final Logger LOGGER = LogManager.getLogger("Blockify");
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException
@@ -24,7 +28,7 @@ public class AuthServerHandler implements HttpHandler
             handleResponse(httpExchange, requestParamValue);
         } catch (URISyntaxException | InterruptedException e)
         {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 

@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class BlockifyHUD
 {
@@ -33,6 +35,7 @@ public class BlockifyHUD
     private static int newVolume;
     public static boolean isHidden = false;
     public static final Logger LOGGER = LogManager.getLogger("Blockify");
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     public BlockifyHUD(MinecraftClient client)
     {
@@ -162,37 +165,38 @@ public class BlockifyHUD
 
     public static void increaseVolume()
     {
-        prevVolume = Integer.parseInt(hudInfo[6]);
-        LOGGER.info("Prev volume: " + prevVolume);
-        newVolume = prevVolume + 10;
-        if (prevVolume == 100)
-        {
-            return;
-        }
-        else if (newVolume > 100)
-        {
-            newVolume = 100;
-        }
-        SpotifyUtil.putRequest("volume?volume_percent=" + newVolume);
-        LOGGER.info("Set new volume: " + newVolume);
-        hudInfo[6] = String.valueOf(newVolume);
+        EXECUTOR_SERVICE.execute(() -> {
+            prevVolume = Integer.parseInt(hudInfo[6]);
+            LOGGER.info("Prev volume: " + prevVolume);
+            newVolume = prevVolume + 10;
+            if (prevVolume == 100) {
+                return;
+            } else if (newVolume > 100) {
+                newVolume = 100;
+            }
+            SpotifyUtil.putRequest("volume?volume_percent=" + newVolume);
+            LOGGER.info("Set new volume: " + newVolume);
+            hudInfo[6] = String.valueOf(newVolume);
+        });
     }
     public static void decreaseVolume()
     {
-        prevVolume = Integer.parseInt(hudInfo[6]);
-        LOGGER.info("Prev volume: " + prevVolume);
-        newVolume = prevVolume - 10;
-        if (prevVolume == 0)
-        {
-            return;
-        }
-        else if (newVolume < 0)
-        {
-            newVolume = 0;
-        }
-        SpotifyUtil.putRequest("volume?volume_percent=" + newVolume);
-        LOGGER.info("Set new volume: " + newVolume);
-        hudInfo[6] = String.valueOf(newVolume);
+        EXECUTOR_SERVICE.execute(() -> {
+            prevVolume = Integer.parseInt(hudInfo[6]);
+            LOGGER.info("Prev volume: " + prevVolume);
+            newVolume = prevVolume - 10;
+            if (prevVolume == 0)
+            {
+                return;
+            }
+            else if (newVolume < 0)
+            {
+                newVolume = 0;
+            }
+            SpotifyUtil.putRequest("volume?volume_percent=" + newVolume);
+            LOGGER.info("Set new volume: " + newVolume);
+            hudInfo[6] = String.valueOf(newVolume);
+        });
     }
 
 
