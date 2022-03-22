@@ -175,7 +175,6 @@ public class BlockifyMain implements ModInitializer
         {
             if (currPressState && !playKeyPrevState)
             {
-
                 if (SpotifyUtil.isAuthorized())
                 {
                     LOGGER.info("Authorized!");

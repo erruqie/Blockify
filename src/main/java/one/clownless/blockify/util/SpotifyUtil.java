@@ -49,7 +49,7 @@ public class SpotifyUtil
     private static boolean isPlaying = false;
 
     public static final Logger LOGGER = LogManager.getLogger("Blockify");
-    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
 
     public static void initialize()
     {
