@@ -11,6 +11,11 @@ body:
         - label: "[I have searched the issue tracker](https://github.com/clownless/Blockify/issues?q=) and did not find an issue describing my bug."
     validations:
       required: true
+  - type: checkboxes
+    id: premium
+    attributes:
+      options:
+        - label: "I have a Spotify Premium subscription."
   - type: markdown
     attributes:
       value: "Are you using the latest version of the mod? If not, try updating to see if it resolves your issue. You can [find the latest versions here](https://github.com/clownless/Blockify/releases)."
