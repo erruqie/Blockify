@@ -41,4 +41,4 @@ Any contributions you make are **greatly appreciated**.
 5. Open a Pull Request
 
 ## Localisation
-[![Crowdin](https://is.gd/TfsUVl)](https://ru.crowdin.com/project/blockify)
+[![Crowdin](https://is.gd/TfsUVl)](https://www.crowdin.com/project/blockify)
