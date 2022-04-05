@@ -12,6 +12,7 @@
 
 Fork of original [Blockify](https://github.com/BuffMage/Blockify), allows users to passthrough their Spotify information into Minecraft
 
+### Spotify Premium is required
 
 ## How to use
 
