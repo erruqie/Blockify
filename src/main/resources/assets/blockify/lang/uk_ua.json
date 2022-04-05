@@ -8,6 +8,7 @@
   "blockify.key.increaseVolume": "Збільшити гучність",
   "blockify.key.decreaseVolume": "Зменшити гучність",
   "blockify.hud.volume": "Гучність",
+  "blockify.midnightconfig.volumeStep": "Крок гучності",
   "blockify.midnightconfig.title": "Налаштування Blockify",
   "blockify.midnightconfig.midnightlib_description": "§nMidnightLib",
   "blockify.midnightconfig.scale": "Масштаб",

@@ -7,6 +7,7 @@ public class BlockifyConfig extends MidnightConfig {
     @Entry public static Anchor anchor = Anchor.TOP_LEFT;
     @Entry public static int posX = 0;
     @Entry public static int posY = 0;
+    @Entry(min = 1) public static int volumeStep = 10;
     @Entry(width = 7, min = 7, isColor = true) public static String titleColor = "#ffffff";
     @Entry(width = 7, min = 7, isColor = true) public static String artistColor = "#ffffff";
     @Entry(width = 7, min = 7, isColor = true) public static String timeColor = "#ffffff";

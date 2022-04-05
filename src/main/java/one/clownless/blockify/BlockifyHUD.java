@@ -169,7 +169,7 @@ public class BlockifyHUD
         EXECUTOR_SERVICE.execute(() -> {
             prevVolume = Integer.parseInt(hudInfo[6]);
             LOGGER.info("Prev volume: " + prevVolume);
-            newVolume = prevVolume + 10;
+            newVolume = prevVolume + BlockifyConfig.volumeStep;
             if (prevVolume == 100) {
                 return;
             } else if (newVolume > 100) {
@@ -185,7 +185,7 @@ public class BlockifyHUD
         EXECUTOR_SERVICE.execute(() -> {
             prevVolume = Integer.parseInt(hudInfo[6]);
             LOGGER.info("Prev volume: " + prevVolume);
-            newVolume = prevVolume - 10;
+            newVolume = prevVolume - BlockifyConfig.volumeStep;
             if (prevVolume == 0)
             {
                 return;
