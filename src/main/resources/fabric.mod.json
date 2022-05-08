@@ -22,6 +22,9 @@
   "entrypoints": {
     "main": [
       "one.clownless.blockify.BlockifyMain"
+    ],
+    "client": [
+      "one.clownless.blockify.BlockifyClient"
     ]
   },
   "mixins": [

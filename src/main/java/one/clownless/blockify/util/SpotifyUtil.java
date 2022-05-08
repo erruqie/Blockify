@@ -251,13 +251,17 @@ public class SpotifyUtil
                     .PUT(HttpRequest.BodyPublishers.ofString(""))
                     .header("Authorization", "Bearer " + accessToken).build();
             HttpResponse<String> putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
-            LOGGER.info("Put Request (" + type + "): " + putRes.statusCode());
+            LOGGER.info("PUT Request (" + type + "): " + putRes.statusCode());
             if (putRes.statusCode() == 404)
             {
                 refreshActiveSession();
                 LOGGER.info("Retrying put request...");
                 putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
-                LOGGER.info("Put Request (" + type + "): " + putRes.statusCode());
+                LOGGER.info("PUT Request (" + type + "): " + putRes.statusCode());
+            }
+            else if (putRes.statusCode() == 403)
+            {
+                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Spotify Premium is required for this feature."), UUID.randomUUID());
             }
             else if (putRes.statusCode() == 401)
             {
@@ -294,13 +298,17 @@ public class SpotifyUtil
                     .POST(HttpRequest.BodyPublishers.ofString(""))
                     .header("Authorization", "Bearer " + accessToken).build();
             HttpResponse<String> postRes = client.send(postReq, HttpResponse.BodyHandlers.ofString());
-            LOGGER.info("Post Request (" + type + "): " + postRes.statusCode());
+            LOGGER.info("POST Request (" + type + "): " + postRes.statusCode());
             if (postRes.statusCode() == 404)
             {
                 refreshActiveSession();
                 LOGGER.info("Retrying post request...");
                 postRes = client.send(postReq, HttpResponse.BodyHandlers.ofString());
-                LOGGER.info("Put Request (" + type + "): " + postRes.statusCode());
+                LOGGER.info("POST Request (" + type + "): " + postRes.statusCode());
+            }
+            else if (postRes.statusCode() == 403)
+            {
+                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Spotify Premium is required for this feature."), UUID.randomUUID());
             }
             else if (postRes.statusCode() == 401)
             {
