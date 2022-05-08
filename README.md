@@ -2,6 +2,7 @@
 
 ## Blockify Mod
 [![Crowdin](https://is.gd/TfsUVl)](https://ru.crowdin.com/project/blockify)
+[![Github Downloads](https://img.shields.io/github/downloads/clownless/blockify/total?color=e3256b&label=github%20downloads&style=flat-square)](https://github.com/clownless/Blockify/releases/latest)
 [![CurseForge Downloads](https://is.gd/bycASH)](https://www.curseforge.com/minecraft/mc-mods/blockify)
 [![Modrinth Downloads](https://is.gd/oNgXFH)](https://modrinth.com/mod/blockify)
 [![License](https://img.shields.io/github/license/clownless/blockify?style=flat-square)](https://github.com/clownless/Blockify/blob/main/LICENSE)
