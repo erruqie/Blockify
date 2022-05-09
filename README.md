@@ -1,7 +1,7 @@
 <img src="./src/main/resources/assets/blockify/icon.png" width="150" align="left"/>
 
 ## Blockify Mod
-[![Crowdin](https://is.gd/TfsUVl)](https://ru.crowdin.com/project/blockify)
+[![Crowdin](https://is.gd/TfsUVl)](https://www.crowdin.com/project/blockify)
 [![Github Downloads](https://img.shields.io/github/downloads/clownless/blockify/total?color=e3256b&label=github%20downloads&style=flat-square)](https://github.com/clownless/Blockify/releases/latest)
 [![CurseForge Downloads](https://is.gd/bycASH)](https://www.curseforge.com/minecraft/mc-mods/blockify)
 [![Modrinth Downloads](https://is.gd/oNgXFH)](https://modrinth.com/mod/blockify)
