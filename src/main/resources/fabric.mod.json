@@ -31,9 +31,9 @@
     "blockify.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.12",
+    "fabricloader": ">=0.14.5",
     "fabric": "*",
-    "minecraft": ">=1.17",
+    "minecraft": ">=1.18.2",
     "java": ">=16",
     "midnightlib": ">=0.4.0"
   },
