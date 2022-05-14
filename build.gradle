@@ -77,7 +77,7 @@ modrinth {
 	versionNumber = project.mod_version
 	versionType = 'release'
 	uploadFile = remapJar
-	gameVersions = ['1.17', '1.17.1', '1.18', '1.18.1', '1.18.2']
+	gameVersions = ['1.18.2']
 	loaders = ['fabric']
 	dependencies = [
 			new ModDependency('P7dR8mSH', 'required')
