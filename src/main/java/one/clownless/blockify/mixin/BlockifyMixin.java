@@ -1,5 +1,6 @@
 package one.clownless.blockify.mixin;
 
+import net.minecraft.client.render.item.ItemRenderer;
 import one.clownless.blockify.BlockifyHUD;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,8 +26,8 @@ public abstract class BlockifyMixin {
 	@Final
 	private MinecraftClient client;
 
-	@Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;)V", at = @At(value = "RETURN"))
-	private void onInit(MinecraftClient client, CallbackInfo ci) throws IOException
+	@Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/render/item/ItemRenderer;)V", at = @At(value = "RETURN"))
+	private void onInit(MinecraftClient client, ItemRenderer itemRenderer, CallbackInfo ci) throws IOException
 	{
 		this.blockifyHUD = new BlockifyHUD(client);
 	}

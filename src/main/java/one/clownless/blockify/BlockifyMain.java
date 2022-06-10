@@ -3,7 +3,8 @@ package one.clownless.blockify;
 
 import one.clownless.blockify.util.SpotifyUtil;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -161,13 +162,17 @@ public class BlockifyMain implements ModInitializer
                     }
                 }
         );
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(
+                    ClientCommandManager.literal("sharetrack").executes(context -> {
+                        var player = MinecraftClient.getInstance().player;
+                        if (player == null) { return 0; }
+                        player.sendChatMessage(BlockifyHUD.hudInfo[5]);
+                        return 0;
+                    })
+            );
+        });
 
-        ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("sharetrack").executes(context -> {
-            var player = MinecraftClient.getInstance().player;
-            if (player == null) { return 0; }
-            player.sendChatMessage(BlockifyHUD.hudInfo[5]);
-            return 1;
-        }));
     }
 
     public void playKeyHandler(boolean currPressState)

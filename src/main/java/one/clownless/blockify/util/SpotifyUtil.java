@@ -7,7 +7,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpServer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -213,7 +212,7 @@ public class SpotifyUtil
             String thisDeviceID = "";
             if (devicesJson.size() == 0)
             {
-                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Please open Spotify and then click the force update button."), UUID.randomUUID());
+                MinecraftClient.getInstance().player.sendMessage(Text.of("Please open Spotify and then click the force update button."));
                 BlockifyHUD.setDuration(1);
                 BlockifyHUD.setProgress(0);
                 isPlaying = false;
@@ -261,7 +260,7 @@ public class SpotifyUtil
             }
             else if (putRes.statusCode() == 403)
             {
-                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Spotify Premium is required for this feature."), UUID.randomUUID());
+                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."));
             }
             else if (putRes.statusCode() == 401)
             {
@@ -308,7 +307,7 @@ public class SpotifyUtil
             }
             else if (postRes.statusCode() == 403)
             {
-                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Spotify Premium is required for this feature."), UUID.randomUUID());
+                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."));
             }
             else if (postRes.statusCode() == 401)
             {
