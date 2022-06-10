@@ -17,14 +17,14 @@ Fork of original [Blockify](https://github.com/BuffMage/Blockify), allows users 
 
 ## How to use
 
-- To log in to your Spotify account, press 5 on NumPad
-- Previous Song - Num 4
-- Play/Pause (or Authorize) - Num 5 
-- Next Song - Num 6
-- Reload Blockify - Num 8
-- Hide Blockify - Num 9
-- Inscrease Volume - Num +
-- Decrease Volume - Num -
+- To log in to your Spotify account, press `Play/Pause` button
+- Previous Song - `Num 4`
+- Play/Pause (or Authorize) - `Num 5` 
+- Next Song - `Num 6`
+- Reload Blockify - `Num 8`
+- Hide Blockify - `Num 9`
+- Inscrease Volume - `Num +`
+- Decrease Volume - `Num -`
 
 ## Screenshots
 
