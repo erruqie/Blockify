@@ -7,6 +7,7 @@
   "blockify.key.hide": "Hide Spotify",
   "blockify.key.increaseVolume": "Increase Volume",
   "blockify.key.decreaseVolume": "Decrease Volume",
+  "blockify.key.toggleInGameMusic": "Toggle In-Game Music",
   "blockify.hud.volume": "Volume",
   "blockify.midnightconfig.volumeStep": "Volume Step",
   "blockify.midnightconfig.title": "Blockify Config",
@@ -31,5 +32,6 @@
   "blockify.midnightconfig.timeColor.tooltip": "Hexadecimal color",
   "blockify.midnightconfig.barColor.tooltip": "Hexadecimal color",
   "blockify.midnightconfig.backgroundColor.tooltip": "Hexadecimal color",
-  "blockify.midnightconfig.backgroundTransparency.tooltip": "0-255"
+  "blockify.midnightconfig.backgroundTransparency.tooltip": "0-255",
+  "blockify.midnightconfig.inGameMusicVolume": "In-Game music volume"
 }

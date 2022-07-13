@@ -15,6 +15,7 @@ public class BlockifyConfig extends MidnightConfig {
     @Entry(width = 7, min = 7, isColor = true) public static String barColor = "#ffffff";
     @Entry(width = 7, min = 7, isColor = true) public static String backgroundColor = "#000000";
     @Entry(max = 255) public static int backgroundTransparency = 100;
+    @Entry(max = 1) public static double inGameMusicVolume = 1;
 
     public enum Anchor {
         TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT

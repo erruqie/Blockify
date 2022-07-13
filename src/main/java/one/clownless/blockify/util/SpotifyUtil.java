@@ -1,6 +1,7 @@
 package one.clownless.blockify.util;
 
 
+import one.clownless.blockify.BlockifyConfig;
 import one.clownless.blockify.BlockifyHUD;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -10,6 +11,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.sound.SoundCategory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -495,4 +498,16 @@ public class SpotifyUtil
         return isPlaying;
     }
 
+    public static void toggleInGameMusic()
+    {
+        GameOptions options = MinecraftClient.getInstance().options;
+        if (!isPlaying()) {
+            options.setSoundVolume(SoundCategory.MUSIC, (float) BlockifyConfig.inGameMusicVolume);
+            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now enabled"));
+        } else {
+            options.setSoundVolume(SoundCategory.MUSIC, 0.0f);
+            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now disabled"));
+        }
+        options.write();
+    }
 }

@@ -28,6 +28,7 @@ public class BlockifyMain implements ModInitializer
     private static KeyBinding hideKey;
     private static KeyBinding increaseVolumeKey;
     private static KeyBinding decreaseVolumeKey;
+    private static KeyBinding toggleInGameMusicKey;
     private boolean playKeyPrevState = false;
     private boolean nextKeyPrevState = false;
     private boolean prevKeyPrevState = false;
@@ -35,6 +36,7 @@ public class BlockifyMain implements ModInitializer
     private boolean hideKeyPrevState = false;
     private boolean increaseVolumeKeyPrevState = false;
     private boolean decreaseVolumeKeyPrevState = false;
+    private boolean toggleInGameMusicKeyPrevState = false;
     private static Thread requestThread;
 
     public static final Logger LOGGER = LogManager.getLogger("Blockify");
@@ -143,6 +145,15 @@ public class BlockifyMain implements ModInitializer
                 )
         );
 
+        toggleInGameMusicKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "blockify.key.toggleInGameMusic",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_KP_1,
+                        "Blockify"
+                )
+        );
+
         ClientTickEvents.END_CLIENT_TICK.register(
                 client ->
                 {
@@ -155,6 +166,7 @@ public class BlockifyMain implements ModInitializer
                         hideKeyHandler(hideKey.isPressed());
                         increaseVolumeKeyHandler(increaseVolumeKey.isPressed());
                         decreaseVolumeKeyHandler(decreaseVolumeKey.isPressed());
+                        toggleInGameMusicKeyHandler(toggleInGameMusicKey.isPressed());
 
                     } catch (Exception e)
                     {
@@ -263,5 +275,15 @@ public class BlockifyMain implements ModInitializer
             BlockifyHUD.decreaseVolume();
         }
         decreaseVolumeKeyPrevState = currPressState;
+    }
+
+    public void toggleInGameMusicKeyHandler(boolean currPressState)
+    {
+        if (currPressState && !toggleInGameMusicKeyPrevState)
+        {
+            LOGGER.info("Toggle In Game Music Key Pressed");
+            SpotifyUtil.toggleInGameMusic();
+        }
+        toggleInGameMusicKeyPrevState = currPressState;
     }
 }
