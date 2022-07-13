@@ -2,11 +2,10 @@
 
 ## Blockify Mod
 [![Crowdin](https://is.gd/TfsUVl)](https://www.crowdin.com/project/blockify)
-[![Github Downloads](https://img.shields.io/github/downloads/clownless/blockify/total?color=e3256b&label=github%20downloads&style=flat-square)](https://github.com/clownless/Blockify/releases/latest)
-[![CurseForge Downloads](https://is.gd/bycASH)](https://www.curseforge.com/minecraft/mc-mods/blockify)
-[![Modrinth Downloads](https://is.gd/oNgXFH)](https://modrinth.com/mod/blockify)
+[![CurseForge](https://is.gd/BeBNjV)](https://www.curseforge.com/minecraft/mc-mods/blockify)
+[![Modrinth](https://is.gd/h1Lgw5)](https://modrinth.com/mod/blockify)
 [![License](https://img.shields.io/github/license/clownless/blockify?style=flat-square)](https://github.com/clownless/Blockify/blob/main/LICENSE)
-[![ModLoader](https://img.shields.io/badge/modloader-Fabric-1976d2?style=flat-square)](https://fabricmc.net/)
+[![ModLoader](https://img.shields.io/badge/modloader-Fabric%2C%20Quilt-1976d2?style=flat-square)](https://fabricmc.net/)
 [![Java Version](https://img.shields.io/badge/java-17%20(or%20above)-1976d2?style=flat-square)](https://adoptium.net/releases.html)
 ![Environment](https://img.shields.io/badge/environment-client-1976d2?style=flat-square)
 [![Discord](https://img.shields.io/discord/837540892411691008?label=discord&style=flat-square)](https://discord.gg/bSgZxY3rQm)
@@ -25,6 +24,7 @@ Fork of original [Blockify](https://github.com/BuffMage/Blockify), allows users 
 - Hide Blockify - `Num 9`
 - Inscrease Volume - `Num +`
 - Decrease Volume - `Num -`
+- Toggle In-Game music - `Num 1`
 
 ## Screenshots
 
