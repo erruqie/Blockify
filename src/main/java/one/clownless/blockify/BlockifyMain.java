@@ -1,6 +1,7 @@
 package one.clownless.blockify;
 
 
+import net.minecraft.text.Text;
 import one.clownless.blockify.util.SpotifyUtil;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -8,7 +9,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Util;
@@ -179,12 +179,11 @@ public class BlockifyMain implements ModInitializer
                     ClientCommandManager.literal("sharetrack").executes(context -> {
                         var player = MinecraftClient.getInstance().player;
                         if (player == null) { return 0; }
-                        player.sendChatMessage(BlockifyHUD.hudInfo[5]);
+                        player.sendChatMessage(BlockifyHUD.hudInfo[5], Text.of(BlockifyHUD.hudInfo[5]));
                         return 0;
                     })
             );
         });
-
     }
 
     public void playKeyHandler(boolean currPressState)
@@ -245,14 +244,7 @@ public class BlockifyMain implements ModInitializer
         if (currPressState && !hideKeyPrevState)
         {
             LOGGER.info("Hide Key Pressed");
-            if (BlockifyHUD.isHidden)
-            {
-                BlockifyHUD.isHidden = false;
-            }
-            else
-            {
-                BlockifyHUD.isHidden = true;
-            }
+            BlockifyHUD.isHidden = !BlockifyHUD.isHidden;
         }
         hideKeyPrevState = currPressState;
     }

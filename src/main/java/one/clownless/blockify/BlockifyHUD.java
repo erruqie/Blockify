@@ -28,7 +28,6 @@ public class BlockifyHUD
     private static URLImage albumImage;
     private static TextRenderer fontRenderer;
     public static String[] hudInfo;
-    private static int ticks;
     private static String prevImage;
     private static int progressMS;
     private static int durationMS;
@@ -40,12 +39,12 @@ public class BlockifyHUD
 
     public BlockifyHUD(MinecraftClient client)
     {
-        this.client = client;
+        BlockifyHUD.client = client;
         scaledWidth = client.getWindow().getScaledWidth();
         scaledHeight = client.getWindow().getScaledHeight();
         albumImage = new URLImage(300, 300);
         fontRenderer = client.textRenderer;
-        ticks = 0;
+        int ticks = 0;
         hudInfo = new String[7];
         prevImage = "empty";
         progressMS = 0;
@@ -73,14 +72,14 @@ public class BlockifyHUD
         scaledWidth = client.getWindow().getScaledWidth();
         scaledHeight = client.getWindow().getScaledHeight();
         int textOffset = 55;
-        if ((BlockifyConfig.drawCover != false) && hudInfo[4] != null && (!prevImage.equals(hudInfo[4]) && !hudInfo[4].equals("")))
+        if ((BlockifyConfig.drawCover) && hudInfo[4] != null && (!prevImage.equals(hudInfo[4]) && !hudInfo[4].equals("")))
         {
             LOGGER.info("Drawing new album cover.");
             albumImage.setImage(hudInfo[4]);
             prevImage = hudInfo[4];
         }
 
-        if (hudInfo[4] != null && (BlockifyConfig.drawCover != false))
+        if (hudInfo[4] != null && (BlockifyConfig.drawCover))
         {
             drawRectangle(5, 5, 50, 50, new Color(0,0,0,150));
             RenderUtil.drawTexture(matrixStack, albumImage, 5, 5, .15F);
@@ -102,11 +101,8 @@ public class BlockifyHUD
         else
         {
             fontRenderer.drawWithShadow(matrixStack, nameWrap.get(0), 60 - textOffset, 5, MidnightColorUtil.hex2Rgb(BlockifyConfig.titleColor).getRGB());
-            yOffset = 0;
         }
         matrixStack.scale(.5F, .5F, .5F);
-
-
 
         List<OrderedText> artistWrap = fontRenderer.wrapLines(StringVisitable.plain(hudInfo[1]), 140);
         int artistYOffset = 0;
@@ -119,7 +115,6 @@ public class BlockifyHUD
         else
         {
             fontRenderer.drawWithShadow(matrixStack, artistWrap.get(0), 120 - (textOffset * 2), 44 + yOffset, MidnightColorUtil.hex2Rgb(BlockifyConfig.artistColor).getRGB());
-            artistYOffset = 0;
         }
         String progressText = (progressMS / (1000 * 60)) + ":" + String.format("%02d", (progressMS / 1000 % 60));
         String durationText = (durationMS / (1000 * 60)) + ":" + String.format("%02d ", (durationMS / 1000 % 60)) + I18n.translate("blockify.hud.volume") + ": " + hudInfo[6];
@@ -198,6 +193,4 @@ public class BlockifyHUD
             hudInfo[6] = String.valueOf(newVolume);
         });
     }
-
-
 }

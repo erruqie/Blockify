@@ -35,7 +35,8 @@ public abstract class BlockifyMixin {
 	@Inject(method = "render", at = @At("HEAD"))
 	private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci)
 	{
-		this.blockifyHUD.draw(matrixStack);
+		if (!MinecraftClient.getInstance().options.debugEnabled)
+			BlockifyHUD.draw(matrixStack);
 	}
 }
 
