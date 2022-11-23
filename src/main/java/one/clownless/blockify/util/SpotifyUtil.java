@@ -56,7 +56,7 @@ public class SpotifyUtil
     public static void initialize()
     {
         authFile = new File(System.getProperty("user.dir") + File.separator +
-                "mods" + File.separator + "blockifyTokens.json");
+                "config" + File.separator + "blockifyTokens.json");
         try
         {
             if (!authFile.exists())
@@ -200,7 +200,6 @@ public class SpotifyUtil
 
     public static void refreshActiveSession()
     {
-        LOGGER.info("Attempting to refresh active session...");
         try
         {
             HttpRequest getDevices = HttpRequest.newBuilder(
@@ -215,7 +214,6 @@ public class SpotifyUtil
             String thisDeviceID = "";
             if (devicesJson.size() == 0)
             {
-                MinecraftClient.getInstance().player.sendMessage(Text.of("Please open Spotify and then click the force update button."));
                 BlockifyHUD.setDuration(1);
                 BlockifyHUD.setProgress(0);
                 isPlaying = false;
@@ -384,7 +382,6 @@ public class SpotifyUtil
 
     public static String[] getPlaybackInfo()
     {
-        LOGGER.info("Attempting to retrieve data from Spotify...");
         String[] results = new String[7];
         try
         {
