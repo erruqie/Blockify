@@ -499,10 +499,10 @@ public class SpotifyUtil
     {
         GameOptions options = MinecraftClient.getInstance().options;
         if (!isPlaying()) {
-            options.setSoundVolume(SoundCategory.MUSIC, (float) BlockifyConfig.inGameMusicVolume);
+            options.getSoundVolumeOption(SoundCategory.MUSIC).setValue(BlockifyConfig.inGameMusicVolume);
             MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now enabled"));
         } else {
-            options.setSoundVolume(SoundCategory.MUSIC, 0.0f);
+            options.getSoundVolumeOption(SoundCategory.MUSIC).setValue(0.0d);
             MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now disabled"));
         }
         options.write();
