@@ -3,11 +3,13 @@ package one.clownless.blockify.util;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
+import java.util.function.Supplier;
 
 
 public class RenderUtil
@@ -26,7 +28,8 @@ public class RenderUtil
 
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        Supplier<ShaderProgram> texProgram = GameRenderer::getPositionTexProgram;
+        RenderSystem.setShader(texProgram);
         RenderSystem.setShaderTexture(0, texture);
 
         RenderSystem.enableBlend();
