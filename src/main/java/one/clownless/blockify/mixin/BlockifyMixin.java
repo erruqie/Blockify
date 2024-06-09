@@ -1,12 +1,13 @@
 package one.clownless.blockify.mixin;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import one.clownless.blockify.BlockifyHUD;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,10 +34,10 @@ public abstract class BlockifyMixin {
 	}
 
 	@Inject(method = "render", at = @At("HEAD"))
-	private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci)
+	private void onDraw(DrawContext context, float tickDelta, CallbackInfo ci)
 	{
 		if (!MinecraftClient.getInstance().options.debugEnabled)
-			BlockifyHUD.draw(matrixStack);
+			BlockifyHUD.draw(context);
 	}
 }
 
