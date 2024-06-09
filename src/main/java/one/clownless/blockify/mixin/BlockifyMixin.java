@@ -11,6 +11,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import net.minecraft.client.gl.GlDebug;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,8 +28,8 @@ public abstract class BlockifyMixin {
 	@Final
 	private MinecraftClient client;
 
-	@Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/render/item/ItemRenderer;)V", at = @At(value = "RETURN"))
-	private void onInit(MinecraftClient client, ItemRenderer itemRenderer, CallbackInfo ci) throws IOException
+	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/client/MinecraftClient;)V")
+	private void onInit(MinecraftClient client, CallbackInfo ci) throws IOException
 	{
 		this.blockifyHUD = new BlockifyHUD(client);
 	}
@@ -36,7 +37,7 @@ public abstract class BlockifyMixin {
 	@Inject(method = "render", at = @At("HEAD"))
 	private void onDraw(DrawContext context, float tickDelta, CallbackInfo ci)
 	{
-		if (!MinecraftClient.getInstance().options.debugEnabled)
+		if (!GlDebug.isDebugMessageEnabled())
 			BlockifyHUD.draw(context);
 	}
 }
