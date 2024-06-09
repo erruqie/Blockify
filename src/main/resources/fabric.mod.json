@@ -6,15 +6,15 @@
   "description": "Allows users to passthrough their Spotify information into Minecraft",
   "authors": [
     "James DeLoach",
-    "clownless"
+    "erruqie"
   ],
   "contributors": [
     "Motschen"
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/blockify",
-    "sources": "https://github.com/clownless/Blockify",
-    "issues": "https://github.com/clownless/Blockify/issues"
+    "sources": "https://github.com/erruqie/Blockify",
+    "issues": "https://github.com/erruqie/Blockify/issues"
   },
   "license": "CC0-1.0",
   "icon": "assets/blockify/icon.png",

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.1-SNAPSHOT'
+	id 'fabric-loom' version '1.6-SNAPSHOT'
 	id 'maven-publish'
 	id 'com.modrinth.minotaur' version '2.+'
 }
@@ -13,18 +13,15 @@ group = project.maven_group
 
 repositories {
 	maven { url = "https://api.modrinth.com/maven" }
-	maven { url = "https://minecraft.guntram.de/maven" }
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "de.guntram.mcmod:crowdin-translate:${project.crowdintranslate_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
 	include "maven.modrinth:midnightlib:${project.midnightlib_version}"
-	include "de.guntram.mcmod:crowdin-translate:${project.crowdintranslate_version}"
 }
 
 processResources {
@@ -69,7 +66,7 @@ publishing {
 		// retrieving dependencies.
 	}
 }
-
+/*
 import com.modrinth.minotaur.dependencies.ModDependency
 modrinth {
 	token = System.getenv('MODRINTH_TOKEN')
@@ -82,4 +79,4 @@ modrinth {
 	dependencies = [
 			new ModDependency('P7dR8mSH', 'required')
 	]
-}
+}*/

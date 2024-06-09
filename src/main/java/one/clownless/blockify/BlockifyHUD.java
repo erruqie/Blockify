@@ -78,7 +78,6 @@ public class BlockifyHUD
             albumImage.setImage(hudInfo[4]);
             prevImage = hudInfo[4];
         }
-
         if (hudInfo[4] != null && (BlockifyConfig.drawCover))
         {
             drawRectangle(5, 5, 50, 50, new Color(0,0,0,150));

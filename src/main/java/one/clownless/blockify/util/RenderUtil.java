@@ -24,7 +24,6 @@ public class RenderUtil
 
         TextureManager tex = MinecraftClient.getInstance().getTextureManager();
         tex.bindTexture(texture);
-        RenderSystem.enableTexture();
 
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
