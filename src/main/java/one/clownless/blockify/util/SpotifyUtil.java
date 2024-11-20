@@ -105,7 +105,7 @@ public class SpotifyUtil
             authURI.append("&response_type=code");
             authURI.append("&redirect_uri=http%3A%2F%2Flocalhost%3A8001%2Fcallback");
             authURI.append("&scope=user-read-playback-state%20user-read-currently-playing");
-            authURI.append("%20user-modify-playback-state");
+            authURI.append("%20user-modify-playback-state%20user-library-modify");
             authURI.append("&code_challenge_method=S256");
             verifier = PKCEUtil.generateCodeVerifier();
             challenge = PKCEUtil.generateCodeChallenge(verifier);
@@ -243,6 +243,57 @@ public class SpotifyUtil
         LOGGER.info("Successfully refreshed active session");
     }
 
+    public static void addTrack(String track_id)
+    {
+        try
+        {
+            HttpRequest putReq = HttpRequest.newBuilder(new URI("https://api.spotify.com/v1/me/tracks?ids=" + track_id))
+                    .PUT(HttpRequest.BodyPublishers.ofString(""))
+                    .header("Authorization", "Bearer " + accessToken).build();
+            HttpResponse<String> putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
+            LOGGER.info("Add Track Request (" + track_id + "): " + putRes.statusCode());
+            if (putRes.statusCode() == 200)
+            {
+                MinecraftClient.getInstance().player.sendMessage(Text.of("Track Saved!"), true);
+            }
+            else if (putRes.statusCode() == 404)
+            {
+                refreshActiveSession();
+                LOGGER.info("Retrying put request...");
+                putRes = client.send(putReq, HttpResponse.BodyHandlers.ofString());
+                LOGGER.info("Add Track Request (" + track_id + "): " + putRes.statusCode());
+            }
+            else if (putRes.statusCode() == 403)
+            {
+                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."), false);
+            }
+            else if (putRes.statusCode() == 401)
+            {
+                if (refreshAccessToken())
+                {
+                    addTrack(track_id);
+                }
+                else
+                {
+                    isAuthorized = false;
+                }
+            }
+        } catch (IOException | InterruptedException | URISyntaxException e)
+        {
+            if (e instanceof IOException && e.getMessage().equals("Connection reset"))
+            {
+                LOGGER.info("Attempting to retry put request...");
+                addTrack(track_id);
+                LOGGER.info("Successfully sent put request");
+            }
+            else
+            {
+                LOGGER.error(e.getMessage());
+            }
+        }
+
+    }
+
     public static void putRequest(String type)
     {
         try
@@ -344,6 +395,13 @@ public class SpotifyUtil
         });
     }
 
+    public static void addTrack()
+    {
+        EXECUTOR_SERVICE.execute(() -> {
+            addTrack(getPlaybackInfo()[7]);
+        });
+    }
+
     public static void prevSong()
     {
         EXECUTOR_SERVICE.execute(() -> {
@@ -382,7 +440,7 @@ public class SpotifyUtil
 
     public static String[] getPlaybackInfo()
     {
-        String[] results = new String[7];
+        String[] results = new String[8];
         try
         {
             playbackResponse = client.send(playbackRequest, HttpResponse.BodyHandlers.ofString());
@@ -401,6 +459,7 @@ public class SpotifyUtil
                     results[2] = json.get("progress_ms").getAsString();
                     results[3] = json.get("item").getAsJsonObject().get("duration_ms").getAsString();
                     results[4] = json.get("item").getAsJsonObject().get("images").getAsJsonArray().get(1).getAsJsonObject().get("url").getAsString();
+                    results[5] = json.get("item").getAsJsonObject().get("id").getAsString();
                     return results;
                 }
                 results[0] = json.get("item").getAsJsonObject().get("name").getAsString();
@@ -433,6 +492,7 @@ public class SpotifyUtil
                 }
                 results[5] = json.get("item").getAsJsonObject().get("external_urls").getAsJsonObject().get("spotify").getAsString();
                 results[6] = json.get("device").getAsJsonObject().get("volume_percent").getAsString();
+                results[7] = json.get("item").getAsJsonObject().get("id").getAsString();
                 isPlaying = json.get("is_playing").getAsBoolean();
             }
             else if (playbackResponse.statusCode() == 401)

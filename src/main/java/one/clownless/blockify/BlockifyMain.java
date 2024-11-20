@@ -26,6 +26,7 @@ public class BlockifyMain implements ModInitializer
     private static KeyBinding nextKey;
     private static KeyBinding prevKey;
     private static KeyBinding forceKey;
+    private static KeyBinding addTrackKey;
     private static KeyBinding hideKey;
     private static KeyBinding increaseVolumeKey;
     private static KeyBinding decreaseVolumeKey;
@@ -34,6 +35,7 @@ public class BlockifyMain implements ModInitializer
     private boolean nextKeyPrevState = false;
     private boolean prevKeyPrevState = false;
     private boolean forceKeyPrevState = false;
+    private boolean addTrackKeyPrevState = false;
     private boolean hideKeyPrevState = false;
     private boolean increaseVolumeKeyPrevState = false;
     private boolean decreaseVolumeKeyPrevState = false;
@@ -110,6 +112,15 @@ public class BlockifyMain implements ModInitializer
                 )
         );
 
+        addTrackKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "blockify.key.addTrack",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_L,
+                        "Blockify"
+                )
+        );
+
         forceKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
                         "blockify.key.force",
@@ -164,6 +175,7 @@ public class BlockifyMain implements ModInitializer
                         nextKeyHandler(nextKey.isPressed());
                         prevKeyHandler(prevKey.isPressed());
                         forceKeyHandler(forceKey.isPressed());
+                        addTrackKeyHandler(addTrackKey.isPressed());
                         hideKeyHandler(hideKey.isPressed());
                         increaseVolumeKeyHandler(increaseVolumeKey.isPressed());
                         decreaseVolumeKeyHandler(decreaseVolumeKey.isPressed());
@@ -228,6 +240,16 @@ public class BlockifyMain implements ModInitializer
             SpotifyUtil.prevSong();
         }
         prevKeyPrevState = currPressState;
+    }
+
+    public void addTrackKeyHandler(boolean currPressState)
+    {
+        if (currPressState && !addTrackKeyPrevState)
+        {
+            LOGGER.info("Add Track Key Pressed");
+            SpotifyUtil.addTrack();
+        }
+        addTrackKeyPrevState = currPressState;
     }
 
     public void forceKeyHandler(boolean currPressState)
