@@ -33,7 +33,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class SpotifyUtil
 {
-    private static String client_id = "d34978659f8940e9bfce52d124539feb";
+    private static String client_id = "ca6700fc50954c86b5a64f3bfc21c4e1";
     private static String challenge;
     private static String verifier;
     private static String authCode;
@@ -261,7 +261,7 @@ public class SpotifyUtil
             }
             else if (putRes.statusCode() == 403)
             {
-                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."));
+                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."), false);
             }
             else if (putRes.statusCode() == 401)
             {
@@ -308,7 +308,7 @@ public class SpotifyUtil
             }
             else if (postRes.statusCode() == 403)
             {
-                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."));
+                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."), false);
             }
             else if (postRes.statusCode() == 401)
             {
@@ -500,10 +500,10 @@ public class SpotifyUtil
         GameOptions options = MinecraftClient.getInstance().options;
         if (!isPlaying()) {
             options.getSoundVolumeOption(SoundCategory.MUSIC).setValue(BlockifyConfig.inGameMusicVolume);
-            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now enabled"));
+            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now enabled"), false);
         } else {
             options.getSoundVolumeOption(SoundCategory.MUSIC).setValue(0.0d);
-            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now disabled"));
+            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now disabled"),false);
         }
         options.write();
     }

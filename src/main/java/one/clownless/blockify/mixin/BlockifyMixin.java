@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import net.minecraft.client.gl.GlDebug;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import net.minecraft.client.render.RenderTickCounter;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public abstract class BlockifyMixin {
 	}
 
 	@Inject(method = "render", at = @At("HEAD"))
-	private void onDraw(DrawContext context, float tickDelta, CallbackInfo ci)
+	private void onDraw(DrawContext context, RenderTickCounter tickDelta, CallbackInfo ci)
 	{
 		if (!GlDebug.isDebugMessageEnabled())
 			BlockifyHUD.draw(context);

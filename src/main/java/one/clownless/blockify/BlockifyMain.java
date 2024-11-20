@@ -180,7 +180,7 @@ public class BlockifyMain implements ModInitializer
                     ClientCommandManager.literal("sharetrack").executes(context -> {
                         var player = MinecraftClient.getInstance().player;
                         if (player == null) { return 0; }
-                        player.sendMessage(Text.of(BlockifyHUD.hudInfo[5]));
+                        player.sendMessage(Text.of(BlockifyHUD.hudInfo[5]), false);
                         return 0;
                     })
             );

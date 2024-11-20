@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class URLImage
@@ -57,12 +56,11 @@ public class URLImage
                     {
                         if (y < img.getHeight())
                         {
-                            //urlImage.setPixelColor(x, y, getABRGfromARGB(img.getRGB(x, y)));
-                            urlImage.setColor(x, y, getABRGfromARGB(img.getRGB(x, y)));
+                            urlImage.setColorArgb(x, y, img.getRGB(x, y));
                         }
                         else
                         {
-                            urlImage.setColor(x, y, new Color(0, 0, 0, 0).getRGB());
+                            urlImage.setColorArgb(x, y, new Color(0, 0, 0, 0).getRGB());
                         }
                     }
                 }

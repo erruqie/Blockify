@@ -74,7 +74,6 @@ public class BlockifyHUD {
             prevImage = hudInfo[4];
         }
         if (hudInfo[4] != null && (BlockifyConfig.drawCover)) {
-            drawRectangle(context, 5, 5, 50, 50, new Color(0, 0, 0, 150));
             RenderUtil.drawTexture(matrixStack, albumImage, 5, 5, .15F);
             textOffset = 0;
         }

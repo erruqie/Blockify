@@ -3,7 +3,7 @@ package one.clownless.blockify.util;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.ShaderProgram;
+import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,12 +23,9 @@ public class RenderUtil
         int height = image.getHeight();
 
         TextureManager tex = MinecraftClient.getInstance().getTextureManager();
-        tex.bindTexture(texture);
 
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        Supplier<ShaderProgram> texProgram = GameRenderer::getPositionTexProgram;
-        RenderSystem.setShader(texProgram);
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX);
         RenderSystem.setShaderTexture(0, texture);
 
         RenderSystem.enableBlend();
@@ -36,15 +33,15 @@ public class RenderUtil
 
         RenderSystem.enableDepthTest();
 
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         Matrix4f matrices = matrixStack.peek().getPositionMatrix();
 
-        bufferBuilder.vertex(matrices, x, y + (height * scale), 0).texture(0, 1).next();
-        bufferBuilder.vertex(matrices, x + (width * scale), y + (height * scale), 0).texture(1, 1).next();
-        bufferBuilder.vertex(matrices, x + (width * scale), y, 0).texture(1, 0).next();
-        bufferBuilder.vertex(matrices, x, y, 0).texture(0, 0).next();
+        bufferBuilder.vertex(matrices, x, y + (height * scale), 0).texture(0, 1);
+        bufferBuilder.vertex(matrices, x + (width * scale), y + (height * scale), 0).texture(1, 1);
+        bufferBuilder.vertex(matrices, x + (width * scale), y, 0).texture(1, 0);
+        bufferBuilder.vertex(matrices, x, y, 0).texture(0, 0);
 
-        tessellator.draw();
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
         RenderSystem.disableBlend();
     }
