@@ -33,7 +33,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class SpotifyUtil
 {
-    private static String client_id = "ca6700fc50954c86b5a64f3bfc21c4e1";
+    private static String client_id = "d34978659f8940e9bfce52d124539feb";
     private static String challenge;
     private static String verifier;
     private static String authCode;
