@@ -35,11 +35,15 @@ public class AuthServerHandler implements HttpHandler
 
     private String handleGetRequest(HttpExchange httpExchange)
     {
-        return httpExchange
-                .getRequestURI()
-                .toString()
-                .split("\\?")[1]
-                .split("=")[1];
+        String query = httpExchange.getRequestURI().getQuery();
+        if (query == null) return null;
+        for (String param : query.split("&")) {
+            String[] pair = param.split("=", 2);
+            if (pair.length == 2 && pair[0].equals("code")) {
+                return pair[1];
+            }
+        }
+        return null;
     }
 
     private void handleResponse (HttpExchange httpExchange, String requestParamValue) throws IOException, URISyntaxException, InterruptedException
@@ -52,7 +56,7 @@ public class AuthServerHandler implements HttpHandler
                 .append("<h1>")
                 .append("Success!")
                 .append("</h1>")
-                .append("</body?")
+                .append("</body>")
                 .append("</html>");
 
         String htmlResponse = htmlBuilder.toString();

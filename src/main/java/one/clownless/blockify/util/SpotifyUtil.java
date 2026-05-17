@@ -7,12 +7,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpServer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.client.Options;
+import net.minecraft.sounds.SoundSource;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -254,7 +254,7 @@ public class SpotifyUtil
             LOGGER.info("Add Track Request (" + track_id + "): " + putRes.statusCode());
             if (putRes.statusCode() == 200)
             {
-                MinecraftClient.getInstance().player.sendMessage(Text.of("Track Saved!"), true);
+                Minecraft.getInstance().player.sendSystemMessage(Component.literal("Track Saved!"));
             }
             else if (putRes.statusCode() == 404)
             {
@@ -265,7 +265,7 @@ public class SpotifyUtil
             }
             else if (putRes.statusCode() == 403)
             {
-                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."), false);
+                Minecraft.getInstance().player.sendSystemMessage(Component.literal("Spotify Premium is required for this feature."));
             }
             else if (putRes.statusCode() == 401)
             {
@@ -280,16 +280,7 @@ public class SpotifyUtil
             }
         } catch (IOException | InterruptedException | URISyntaxException e)
         {
-            if (e instanceof IOException && e.getMessage().equals("Connection reset"))
-            {
-                LOGGER.info("Attempting to retry put request...");
-                addTrack(track_id);
-                LOGGER.info("Successfully sent put request");
-            }
-            else
-            {
-                LOGGER.error(e.getMessage());
-            }
+            LOGGER.error("addTrack failed: " + e.getMessage());
         }
 
     }
@@ -312,7 +303,7 @@ public class SpotifyUtil
             }
             else if (putRes.statusCode() == 403)
             {
-                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."), false);
+                Minecraft.getInstance().player.sendSystemMessage(Component.literal("Spotify Premium is required for this feature."));
             }
             else if (putRes.statusCode() == 401)
             {
@@ -327,16 +318,7 @@ public class SpotifyUtil
             }
         } catch (IOException | InterruptedException | URISyntaxException e)
         {
-            if (e instanceof IOException && e.getMessage().equals("Connection reset"))
-            {
-                LOGGER.info("Attempting to retry put request...");
-                putRequest(type);
-                LOGGER.info("Successfully sent put request");
-            }
-            else
-            {
-                LOGGER.error(e.getMessage());
-            }
+            LOGGER.error("putRequest failed: " + e.getMessage());
         }
 
     }
@@ -359,7 +341,7 @@ public class SpotifyUtil
             }
             else if (postRes.statusCode() == 403)
             {
-                MinecraftClient.getInstance().player.sendMessage(Text.of("Spotify Premium is required for this feature."), false);
+                Minecraft.getInstance().player.sendSystemMessage(Component.literal("Spotify Premium is required for this feature."));
             }
             else if (postRes.statusCode() == 401)
             {
@@ -374,16 +356,7 @@ public class SpotifyUtil
             }
         } catch (IOException | InterruptedException | URISyntaxException e)
         {
-            if (e instanceof IOException && e.getMessage().equals("Connection reset"))
-            {
-                LOGGER.info("Attempting to retry post request...");
-                postRequest(type);
-                LOGGER.info("Successfully sent post request");
-            }
-            else
-            {
-                LOGGER.error(e.getMessage());
-            }
+            LOGGER.error("postRequest failed: " + e.getMessage());
         }
     }
 
@@ -557,14 +530,14 @@ public class SpotifyUtil
 
     public static void toggleInGameMusic()
     {
-        GameOptions options = MinecraftClient.getInstance().options;
+        Options options = Minecraft.getInstance().options;
         if (!isPlaying()) {
-            options.getSoundVolumeOption(SoundCategory.MUSIC).setValue(BlockifyConfig.inGameMusicVolume);
-            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now enabled"), false);
+            options.getSoundSourceOptionInstance(SoundSource.MUSIC).set(BlockifyConfig.inGameMusicVolume);
+            Minecraft.getInstance().player.sendSystemMessage(Component.literal("In-game music is now enabled"));
         } else {
-            options.getSoundVolumeOption(SoundCategory.MUSIC).setValue(0.0d);
-            MinecraftClient.getInstance().player.sendMessage(Text.of("In-game music is now disabled"),false);
+            options.getSoundSourceOptionInstance(SoundSource.MUSIC).set(0.0d);
+            Minecraft.getInstance().player.sendSystemMessage(Component.literal("In-game music is now disabled"));
         }
-        options.write();
+        options.save();
     }
 }

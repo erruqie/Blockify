@@ -20,9 +20,6 @@
   "icon": "assets/blockify/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
-      "one.clownless.blockify.BlockifyMain"
-    ],
     "client": [
       "one.clownless.blockify.BlockifyClient"
     ]
@@ -31,11 +28,11 @@
     "blockify.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.9",
-    "fabric": "*",
-    "minecraft": ">=1.21.3",
-    "java": ">=21",
-    "midnightlib": ">=1.6.4"
+    "fabricloader": ">=0.19.2",
+    "fabric-api": "*",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "midnightlib": ">=1.9.3"
   },
   "custom": {
     "modmenu": {

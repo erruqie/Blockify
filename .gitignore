@@ -32,3 +32,7 @@ bin/
 
 run/
 
+# claude code
+
+.claude/
+CLAUDE.md
